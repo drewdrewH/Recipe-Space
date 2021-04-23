@@ -19,7 +19,7 @@ jobs:
 
         script: |
           cd Recipe-Space
-          git pull origin master
+          git pull https://anh190:54Soleda@github.com/anh190/Recipe-Space.git
           
           
           echo 'Deployment successful to digital ocean'
