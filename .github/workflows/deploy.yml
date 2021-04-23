@@ -18,10 +18,8 @@ jobs:
         username: ${{secrets.SSH_USERNAME}}
 
         script: |
-          rm -rf actual
-          mkdir actual
-          cd actual
-          git clone https://github.com/anh190/Recipe-Space.git
-          rsync -r ~/actual/recipespace/dev/* /root/Recipe-Space/
+          cd Recipe-Space
+          git pull origin master
+          
           
           echo 'Deployment successful to digital ocean'
