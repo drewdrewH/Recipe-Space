@@ -1,0 +1,27 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy website
+      uses: appleboy/ssh-action@v0.1.2
+      with: 
+        host: ${{secrets.SSH_HOST}}
+        key: ${{secrets.SSH_KEY}}
+        username: ${{secrets.SSH_USERNAME}}
+
+        script: |
+          rm -rf actual
+          mkdir actual
+          cd actual
+          git clone https://github.com/anh190/Recipe-Space.git
+          rsync -r ~/actual/recipespace/dev/* /root/Recipe-Space/
+          
+          echo 'Deployment successful to digital ocean'
