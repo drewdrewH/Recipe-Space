@@ -19,7 +19,7 @@ jobs:
 
         script: |
           cd /Recipe-Space
-          git pull https://anh190:54Soleda@github.com/anh190/Recipe-Space.git
+          git pull https://${{secrets.USER}}:${{secrets.PSWD}}@github.com/anh190/Recipe-Space.git
           
           
           echo 'Deployment successful to digital ocean'
