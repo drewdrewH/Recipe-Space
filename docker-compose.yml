@@ -5,7 +5,7 @@ services:
   web-server:
     build:
       context: ./web
-    command: gunicorn -w 4 --bind 0.0.0.0:6000 server:app
+    
     ports:
       - 80:6000 # host : container
     env_file:

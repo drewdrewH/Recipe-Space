@@ -2,10 +2,6 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.renderers import render_to_response
 
-from flask import Flask
-from flask import Response, request, redirect, render_template
-import requests
-
 import mysql.connector as mysql
 import os
 
@@ -14,7 +10,7 @@ db_pass = os.environ['MYSQL_PASSWORD']
 db_name = os.environ['MYSQL_DATABASE']
 db_host = os.environ['MYSQL_HOST']
 
-'''def get_home(req):
+def get_home(req):
   # Connect to the database and retrieve the users
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
@@ -22,10 +18,10 @@ db_host = os.environ['MYSQL_HOST']
   records = cursor.fetchall()
   db.close()
 
-  return render_to_response('templates/home.html', {'users': records}, request=req)'''
+  return render_to_response('templates/home.html', {'users': records}, request=req)
 
 ''' Route Configurations '''
-'''if __name__ == '__main__':
+if __name__ == '__main__':
   config = Configurator()
 
   config.include('pyramid_jinja2')
@@ -38,13 +34,4 @@ db_host = os.environ['MYSQL_HOST']
 
   app = config.make_wsgi_app()
   server = make_server('0.0.0.0', 6000, app)
-  server.serve_forever()'''
-
-app = Flask(__name__)
-
-@app.route('/')
-def get_home():
-  return render_template('home.html')
-
-if __name__ == '__main__':
-  app.run(debug = True,port=6000)
+  server.serve_forever()
