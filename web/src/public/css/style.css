@@ -8,16 +8,18 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    box-shadow: 0 3px 12px #999;
     }
 .nav {
     display: flex;
     justify-content: space-around;
     width: 30%;
-    box-shadow: 0 4px 0 rgba(0,0,0,.2);
+    
+    
     }
 .nav li {
     list-style: none;
-    margin-right: 15px;
+    
     }
 .logo{
     letter-spacing: 3px;
