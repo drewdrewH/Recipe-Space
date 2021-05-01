@@ -37,7 +37,7 @@
       SignUp.removeClass('active');
       formSignIn.removeClass('move-left');
       formSignUp.removeClass('move-left');
-    });
+    }); 
     
     SignUp.on('click', function(){
       signIn.removeClass('active');
