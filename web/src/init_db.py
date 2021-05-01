@@ -33,7 +33,7 @@ except:
   print("Users table already exists. Not recreating it.")
 
 # Insert Records
-query = "insert into Users (full_name, email, password) values (%s, %s,  %s)"
+query = "insert into Users (full_name, email, password) values (%s, %s,  %s);"
 values = [
   ('Andrew Hernandez','anh190@ucsd.edu', '54Soleda')
   

@@ -27,7 +27,7 @@ def sign_up(req):
       name = req.form['name-signUp']
       password = req.form['password-SignUp']
       email = req.form['email-Signup']
-  cursor.execute('SELECT * FROM Users WHERE email = %s', (email,))
+  cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
   account = cursor.fetchone()
         # If account exists show error and validation checks
   if account:
@@ -40,7 +40,7 @@ def sign_up(req):
       msg = 'Please fill out the form!'
   else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
-    cursor.execute('INSERT INTO Users (full_name, email, password) VALUES ( %s, %s, %s)', (name,email, password))
+    cursor.execute('INSERT INTO Users (full_name, email, password) VALUES ( %s, %s, %s);', (name,email, password))
     db.commit()
     msg = 'You have successfully registered!'
   
