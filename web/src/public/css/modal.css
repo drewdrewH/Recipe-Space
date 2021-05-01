@@ -1,0 +1,206 @@
+/*adapted from https://codepen.io/thebeloved88/pen/zvrzoE */
+.SignUpModal {
+    position: fixed;
+    left: 0;
+    top: 30px;
+    margin: 0;
+    width: 100%;
+    height: 450px;
+    background-color: white;
+    border-radius: 5px;
+    z-index: 15;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all .5s ease;
+    
+  }
+  
+  .SignUpModal.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(10px);
+    transition: all .5s ease;
+  }
+  
+  @media (min-width: 500px) {
+    .SignUpModal {
+      width: 50%;
+      left: 50%;
+      margin: 0 0 0 -250px;
+    }
+  }
+  
+  .modal-header {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    height: 10%;
+    width: 100%;
+  }
+  
+  #popup-close-button a {
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    width: 22px;
+    height: 22px;
+  }
+  
+  #popup-close-button a::before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 3px;
+    height: 25px;
+    background-color: #fff;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  
+  #popup-close-button a::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 3px;
+    height: 25px;
+    background-color: #fff;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+  
+  .modal-header ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .modal-header ul li {
+    text-align: center;
+    list-style: none;
+    width: 50%;
+    float: left;
+  }
+  
+  .modal-header ul li a {
+    display: block;
+    padding: 20px 0;
+    margin: 0;
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+  
+  #sign-in {
+    background-color: green;
+    color: #fff;
+    border-radius: 5px 0 0 0;
+  }
+  
+  #sign-in.active {
+    color: green;
+    background-color: transparent;
+  }
+  
+  #SignUp {
+    background-color:green;
+    color:white;
+    border-radius: 0 5px 0 0;
+  }
+  
+  #SignUp.active {
+    color: green;
+    background-color: transparent;
+  }
+  
+  .popup-content {
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  form.sign-in {
+    position: relative; 
+    top: 40px;
+    left: 0;
+    font-size: 1em;
+    opacity: 1;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+  }
+  
+  form.sign-in.move-left {
+    opacity: 0;
+    transform: translateX(-450px);
+  }
+  
+  form label {
+    font-size: 1.1em;
+    color: green;
+    margin-left: 23px;
+  }
+  
+  form.sign-in input {
+    border-radius: 5px;
+    width: 90%;
+    height: 40px;
+    margin: 5px 5% 30px 5%;
+    padding: 10px;
+    font-size: 1em;
+    color: green;
+    outline: none;
+    border: none;
+  }
+  
+  input#submit {
+    background-color: green;
+    color: #fff;
+    height: 50px;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 25px;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    border-radius: 5px;
+    font-size: 1em;
+    border: none;
+  }
+  
+  form.SignUp {
+    position: relative; 
+    top: -280px;
+    left: 0;
+    font-size: 1em;
+    opacity: 0;
+    transform: translateX(450px);
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+  }
+  
+  form.SignUp.move-left {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  form.SignUp input {
+    border-radius: 5px;
+    width: 90%;
+    height: 40px;
+    margin: 5px 5% 15px 5%;
+    padding: 10px;
+    font-size: 1em;
+    color: green;
+    outline: none;
+    border: none;
+  }

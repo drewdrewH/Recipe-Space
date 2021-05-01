@@ -34,12 +34,10 @@ except:
   print("Users table already exists. Not recreating it.")
 
 # Insert Records
-query = "insert into Users (first_name, last_name, email, password, created_at) values (%s, %s, %s, %s, %s)"
+query = "insert into Users (first_name, last_name, email, password, created_at) values (%s, %s, %s, %s)"
 values = [
-  ('rick','gessner','rick@gessner.com', 'abc123', '2020-02-20 12:00:00'),
-  ('ramsin','khoshabeh','ramsin@khoshabeh.com', 'abc123', '2020-02-20 12:00:00'),
-  ('al','pisano','al@pisano.com', 'abc123', '2020-02-20 12:00:00'),
-  ('truong','nguyen','truong@nguyen.com', 'abc123', '2020-02-20 12:00:00')
+  ('Andrew','Hernandez','anh190@ucsd.edu', '54Soleda'),
+  
 ]
 cursor.executemany(query, values)
 db.commit()

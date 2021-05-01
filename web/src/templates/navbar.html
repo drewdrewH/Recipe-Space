@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/modal.css">
 <header>
 <h1 class = 'logo'>Recipe Space</h1>
 
@@ -6,7 +6,38 @@
 <li class="navlink"><a href="/">Home</a></li>
 <li class="navlink"><a href="/">About</a></li>
 <li class="navlink"><a href="/">Login</a></li>
-<li class="navlink"><a href="/">Sign Up</a></li>
+<li class="navlink"><a data-target="#SignUpModal" href="#SignUpModal">Sign Up</a></li>
 </ul>
 
 </header>
+
+<div id="SignUpModal">
+
+    <div class="modal-header">
+        <div id="popup-close-button"><a href="#"></a></div>
+        <ul>
+          <li><a href="#" id="sign-in">Sign In</a></li>
+          <li><a href="#" id="Sign-Up">Sign Up</a></li>
+        </ul>
+    </div>
+    <div class="modal-form">
+        <form action="#" class="sign-in">
+          
+          <input placeholder="Email" type="text" id="email">
+          
+          <input placeholder="Password" type="password" id="password">
+          <input type="submit" id="submit" value="Submit">
+        </form>
+       
+        <form action="#" class="SignUp">
+          <input placeholder="Full Name" type="text" id="name-signUp">
+          <input placeholder="Email" type="text" id="email-Signup">
+          
+          <input placeholder="Password" type="password" id="password-SignUp">
+          
+          <input placeholder="Confirm Password" type="password-confirmation" id="password-confirmation">
+          <input type="submit" id="submit" value="Create Account">
+        </form>
+    </div><!--.popup-content-->
+
+</div>
