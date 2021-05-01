@@ -48,6 +48,11 @@ def sign_up(req):
   print(msg)
   return render_to_response('templates/home.html', {}, request = req)
 
+def login(req):
+  
+
+  return render_to_response('templates/home.html', {}, request=req)
+
 
 ''' Route Configurations '''
 if __name__ == '__main__':
@@ -61,6 +66,9 @@ if __name__ == '__main__':
 
   config.add_route('sign_up', '/sign_up')
   config.add_view(sign_up, route_name='sign_up', request_method='POST')
+
+  config.add_route('login', '/login')
+  config.add_view(login , route_name='login', request_method='POST')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 
