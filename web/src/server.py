@@ -19,14 +19,14 @@ def get_home(req):
 
 def sign_up(req):
   msg = ''
-    # Check if "name", "password" and "email" POST reqs exist (user submitted form)
+    # Check if "name", "password" and "email" POST reqs exist (user submitted params)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  if req.method == 'POST' and 'name' in req.form and 'password' in req.form and 'email' in req.form:
+  if req.method == 'POST' and 'name' in req.params and 'password' in req.params and 'email' in req.params:
         # Create variables for easy access
-      name = req.form['name-signUp']
-      password = req.form['password-SignUp']
-      email = req.form['email-Signup']
+      name = req.params['name-signUp']
+      password = req.params['password-SignUp']
+      email = req.params['email-Signup']
   cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
   account = cursor.fetchone()
         # If account exists show error and validation checks
@@ -37,9 +37,9 @@ def sign_up(req):
   elif not re.match(r'[A-Za-z0-9]+', name):
     msg = 'name must contain only characters and numbers!'
   elif not name or not password or not email:
-      msg = 'Please fill out the form!'
+      msg = 'Please fill out the params!'
   else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table
+            # Account doesnt exists and the params data is valid, now insert new account into accounts table
     cursor.execute('INSERT INTO Users (full_name, email, password) VALUES ( %s, %s, %s);', (name,email, password))
     db.commit()
     msg = 'You have successfully registered!'
