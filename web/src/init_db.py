@@ -27,7 +27,7 @@ try:
       last_name   VARCHAR(30) NOT NULL,
       email       VARCHAR(50) NOT NULL,
       password    VARCHAR(20) NOT NULL,
-      created_at  datetime not null default(current_timestamp)
+      created_at  datetime default(current_timestamp)
     );
   """)
 except:

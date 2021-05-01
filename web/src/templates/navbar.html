@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="css/modal.css">
-<script src="modal.js"></script>
+
 <header>
 <h1 class = 'logo'>Recipe Space</h1>
 
@@ -7,13 +7,14 @@
 <li class="navlink"><a href="/">Home</a></li>
 <li class="navlink"><a href="/">About</a></li>
 <li class="navlink"><a href="/">Login</a></li>
-<li class="navlink"><a id= 'modalButon' data-target="#SignUpModal" href="#SignUpModal">Sign Up</a></li>
+<li class="navlink"><a id= 'modalButton' >Sign Up</a></li>
 </ul>
 
 </header>
-<div class="overlay">
+<div class="overlay" id ='overlay'>
 </div>
-<div id="SignUpModal">
+
+<div class="SignUpModal" id="SignUpModal">
 
     <div class="modal-header">
         <div id="popup-close-button"><a href="#"></a></div>
@@ -23,7 +24,7 @@
         </ul>
     </div>
     <div class="modal-form">
-        <form action="#" class="sign-in">
+        <form action="#" class="sign" id = 'sign'>
           
           <input placeholder="Email" type="text" id="email">
           
@@ -31,7 +32,7 @@
           <input type="submit" id="submit" value="Submit">
         </form>
        
-        <form action="#" class="SignUp">
+        <form action="#" class="SignUp" id ='SignUp'>
           <input placeholder="Full Name" type="text" id="name-signUp">
           <input placeholder="Email" type="text" id="email-Signup">
           
@@ -43,3 +44,4 @@
     </div><!--.popup-content-->
 
 </div>
+<script src="css/modal.js"></script>
