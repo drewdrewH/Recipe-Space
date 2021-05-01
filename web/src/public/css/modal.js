@@ -13,8 +13,8 @@
    document.getElementById('modalButton').onclick = function(){
       overlay.className += ' visible';
       mainPopUp.className += ' visible';
-      SignUp.className += ' active';
-      SignIn.className = 'Sign-Up';
+      signIn.className += ' active';
+      SignUp.className = 'Sign-Up';
       formSignUp.className = 'SignUp';
       formSignIn.className = 'sign';
       console.log(signIn.classList);
