@@ -23,8 +23,7 @@ try:
   cursor.execute("""
     CREATE TABLE Users (
       id          integer  AUTO_INCREMENT PRIMARY KEY,
-      first_name  VARCHAR(30) NOT NULL,
-      last_name   VARCHAR(30) NOT NULL,
+      full_name  VARCHAR(50) NOT NULL,
       email       VARCHAR(50) NOT NULL,
       password    VARCHAR(20) NOT NULL,
       created_at  datetime default(current_timestamp)
@@ -34,9 +33,9 @@ except:
   print("Users table already exists. Not recreating it.")
 
 # Insert Records
-query = "insert into Users (first_name, last_name, email, password, created_at) values (%s, %s, %s, %s)"
+query = "insert into Users (full_name, email, password) values (%s, %s,  %s)"
 values = [
-  ('Andrew','Hernandez','anh190@ucsd.edu', '54Soleda'),
+  ('Andrew Hernandez','anh190@ucsd.edu', '54Soleda')
   
 ]
 cursor.executemany(query, values)
