@@ -15,7 +15,7 @@ def get_home(req):
   # Connect to the database and retrieve the users
   
 
-  return render_to_response('templates/home.html')
+  return render_to_response('templates/home.html',{},request = req )
 
 def sign_up(req):
   msg = ''
@@ -46,7 +46,7 @@ def sign_up(req):
   
   db.close()
   
-  return render_to_response('templates/home.html', msg=msg)
+  return render_to_response('templates/home.html', msg=msg, request = req)
 
 
 ''' Route Configurations '''
