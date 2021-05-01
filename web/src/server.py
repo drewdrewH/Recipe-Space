@@ -60,7 +60,7 @@ if __name__ == '__main__':
   config.add_view(get_home, route_name='get_home')
 
   config.add_route('sign_up', '/sign_up')
-  config.add_view(sign_up, route_name='sign_up', req_method='POST')
+  config.add_view(sign_up, route_name='sign_up', request_method='POST')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 
