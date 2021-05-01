@@ -22,11 +22,11 @@ def sign_up(req):
     # Check if "name", "password" and "email" POST reqs exist (user submitted POST)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  if req.method == 'POST' and 'name' in req.POST and 'password' in req.POST and 'email' in req.POST:
-        # Create variables for easy access
-      name = req.POST['name-signUp']
-      password = req.POST['password-SignUp']
-      email = req.POST['email-Signup']
+  
+  name = str(req.POST.get('name-signUp'))
+  password = str(req.POST.get('password-SignUp'))
+  email = str(req.POST.get('email-Signup'))
+  print(name , password, email)
   cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
   account = cursor.fetchone()
         # If account exists show error and validation checks
@@ -45,8 +45,8 @@ def sign_up(req):
     msg = 'You have successfully registered!'
   
   db.close()
-  
-  return render_to_response('templates/home.html', msg=msg, request = req)
+  print(msg)
+  return render_to_response('templates/home.html', {}, request = req)
 
 
 ''' Route Configurations '''
