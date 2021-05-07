@@ -16,9 +16,15 @@ db_host = os.environ['MYSQL_HOST']
 
 def get_home(req):
   # Connect to the database and retrieve the users
+  session = req.session
   
+  return render_to_response('templates/home.html',{'session':session},request = req )
 
-  return render_to_response('templates/home.html',{},request = req )
+def profile(req):
+  # Connect to the database and retrieve the users
+  session = req.session
+  
+  return render_to_response('templates/profile.html',{'session':session},request = req )
 
 def sign_up(req):
   msg = ''
@@ -58,7 +64,7 @@ def login(req):
   print(email, password)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
+  cursor.execute('SELECT * FROM Users WHERE email = %s and password = %s;', (email,password))
   account = cursor.fetchone()
   print(account)
   if account:
@@ -68,7 +74,7 @@ def login(req):
     session['id'] = account[0]
     session['email'] = account[2]
             # Redirect to home page
-    return render_to_response('templates/user_home.html', {}, request = req)
+    return render_to_response('templates/home.html', {"session": session }, request = req)
   else:
             # Account doesnt exist or username/password incorrect
     return 'Incorrect username/password!'
@@ -78,6 +84,12 @@ def login(req):
   
 
   #return render_to_response('templates/home.html', {}, request=req)
+def logout(req):
+
+  session = req.session
+  session['login'] = False
+  return render_to_response('templates/home.html', {"session": session }, request = req)
+  
 
 
 def browse(req):
@@ -88,6 +100,7 @@ def browse(req):
 if __name__ == '__main__':
   config = Configurator()
   session_factory = SignedCookieSessionFactory('recipeSpaceECE140B')
+  
   config.set_session_factory(session_factory)
 
   config.include('pyramid_jinja2')
@@ -104,6 +117,11 @@ if __name__ == '__main__':
 
   config.add_route('login', '/login')
   config.add_view(login , route_name='login', request_method='POST')
+
+  config.add_route('logout', '/logout')
+  config.add_view(logout , route_name='logout', request_method='GET')
+  config.add_route('profile', '/profile')
+  config.add_view(profile , route_name='profile', request_method='GET')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

@@ -14,7 +14,12 @@
   </head>
 
   <body>
+    {% if session['login']  %}
+    {% include 'user_nav.html' %}
+    {% else %}
     {% include 'navbar.html' %}
+    {% endif %}
+    
     <div class="search">
         <div class="searchbar">
             <input class="searchtext" type="text" placeholder="Search Recipe..." />

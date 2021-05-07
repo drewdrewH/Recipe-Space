@@ -10,6 +10,26 @@ header {
     justify-content: space-around;
     box-shadow: 0 3px 12px #999;
     }
+
+.logout-form{
+    margin-top: 20%;
+    margin-left: 50%;
+
+}
+
+.logout{
+
+    width: 125px;
+    height:50px;
+    background-color: #c41560;
+    border-radius: 10px;
+    color:white;
+}
+.logout:hover{
+    color: #ec6424;
+    border: 1px solid #ec6424;
+    box-shadow: 2px 2px 20px #ec6424;
+}
 .nav {
     display: flex;
     justify-content: space-around;

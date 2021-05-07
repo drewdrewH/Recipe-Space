@@ -13,17 +13,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
 
-  <body>
-    {% if session['login']  %}
+  <body >
     {% include 'user_nav.html' %}
-    {% endif %}
-    <div class="search">
-      <div class="searchbar">
-          <input class="searchtext" type="text" placeholder="Search Recipe..." />
-          <button type="button" class="searchsubmit" id="searchsubmit"></button>
-      </div>
-  </div>
-
+    <form action="/logout" class="logout-form">
+        <button class= 'logout' >Logout</button>
+    </form>
+  
+ 
        
 
   </body>
