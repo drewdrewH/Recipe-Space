@@ -80,6 +80,10 @@ def login(req):
   #return render_to_response('templates/home.html', {}, request=req)
 
 
+def browse(req):
+
+  return render_to_response('templates/browse.html', {}, request=req)
+
 ''' Route Configurations '''
 if __name__ == '__main__':
   config = Configurator()
@@ -91,6 +95,9 @@ if __name__ == '__main__':
 
   config.add_route('get_home', '/')
   config.add_view(get_home, route_name='get_home')
+
+  config.add_route('browse', '/browse')
+  config.add_view(browse, route_name='browse')
 
   config.add_route('sign_up', '/sign_up')
   config.add_view(sign_up, route_name='sign_up', request_method='POST')
