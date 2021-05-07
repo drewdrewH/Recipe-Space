@@ -1,6 +1,8 @@
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.renderers import render_to_response, render
+from pyramid.session import SignedCookieSessionFactory
+
 import re
 
 import mysql.connector as mysql
@@ -10,6 +12,7 @@ db_user = os.environ['MYSQL_USER']
 db_pass = os.environ['MYSQL_PASSWORD']
 db_name = os.environ['MYSQL_DATABASE']
 db_host = os.environ['MYSQL_HOST']
+
 
 def get_home(req):
   # Connect to the database and retrieve the users
@@ -49,14 +52,39 @@ def sign_up(req):
   return render_to_response('templates/home.html', {}, request = req)
 
 def login(req):
+
+  email = str(req.POST.get('email'))
+  password = str(req.POST.get('password'))
+  print(email, password)
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
+  account = cursor.fetchone()
+  print(account)
+  if account:
+            # Create session data, we can access this data in other routes
+    session = req.session
+    session['login'] = True;
+    session['id'] = account[0]
+    session['email'] = account[2]
+            # Redirect to home page
+    return render_to_response('templates/user_home.html', {}, request = req)
+  else:
+            # Account doesnt exist or username/password incorrect
+    return 'Incorrect username/password!'
+
+
+
   
 
-  return render_to_response('templates/home.html', {}, request=req)
+  #return render_to_response('templates/home.html', {}, request=req)
 
 
 ''' Route Configurations '''
 if __name__ == '__main__':
   config = Configurator()
+  session_factory = SignedCookieSessionFactory('recipeSpaceECE140B')
+  config.set_session_factory(session_factory)
 
   config.include('pyramid_jinja2')
   config.add_jinja2_renderer('.html')

@@ -16,6 +16,7 @@ cursor = db.cursor()
 
 # # CAUTION!!! CAUTION!!! CAUTION!!! CAUTION!!! CAUTION!!! CAUTION!!! CAUTION!!!
 cursor.execute("drop table if exists Users;")
+cursor.execute("drop table if exists Recipes;")
 
 # Create a TStudents table (wrapping it in a try-except is good practice)
 try:
@@ -25,6 +26,20 @@ try:
       full_name  VARCHAR(50) NOT NULL,
       email       VARCHAR(50) NOT NULL,
       password    VARCHAR(20) NOT NULL,
+      created_at  datetime default(current_timestamp)
+    );
+  """)
+except:
+  print("Users table already exists. Not recreating it.")
+
+try:
+  cursor.execute("""
+    CREATE TABLE Recipes (
+      id          integer  AUTO_INCREMENT PRIMARY KEY,
+      name        VARCHAR(100) NOT NULL,
+      ingredients VARCHAR(1000) NOT NULL,
+      image       LONGBLOB NOT NULL,
+      time        INT NOT NULL,
       created_at  datetime default(current_timestamp)
     );
   """)
