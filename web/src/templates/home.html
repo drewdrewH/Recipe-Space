@@ -20,12 +20,12 @@
     {% include 'navbar.html' %}
     {% endif %}
     
-    <div class="search">
+    <form method = 'POST' action='/search' class="search">
         <div class="searchbar">
-            <input class="searchtext" type="text" placeholder="Search Recipe..." />
+            <input name ='search-val' id = 'search-val' class="searchtext" type="text" placeholder="Search Recipe..." />
             <button type="button" class="searchsubmit" id="searchsubmit"></button>
         </div>
-    </div>
+    </form>
        
 
   </body>

@@ -44,7 +44,7 @@ try:
     );
   """)
 except:
-  print("Users table already exists. Not recreating it.")
+  print("Recipes table already exists. Not recreating it.")
 
 # Insert Records
 query = "insert into Users (full_name, email, password) values (%s, %s,  %s);"

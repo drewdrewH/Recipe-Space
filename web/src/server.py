@@ -15,13 +15,13 @@ db_host = os.environ['MYSQL_HOST']
 
 
 def get_home(req):
-  # Connect to the database and retrieve the users
+  
   session = req.session
   
   return render_to_response('templates/home.html',{'session':session},request = req )
 
 def profile(req):
-  # Connect to the database and retrieve the users
+  
   session = req.session
   
   return render_to_response('templates/profile.html',{'session':session},request = req )
@@ -57,6 +57,7 @@ def sign_up(req):
   print(msg)
   return render_to_response('templates/home.html', {}, request = req)
 
+
 def login(req):
 
   email = str(req.POST.get('email'))
@@ -66,9 +67,10 @@ def login(req):
   cursor = db.cursor()
   cursor.execute('SELECT * FROM Users WHERE email = %s and password = %s;', (email,password))
   account = cursor.fetchone()
+  db.close()
   print(account)
   if account:
-            # Create session data, we can access this data in other routes
+     # Create session data, we can access this data in other routes
     session = req.session
     session['login'] = True;
     session['id'] = account[0]
@@ -90,6 +92,14 @@ def logout(req):
   session['login'] = False
   return render_to_response('templates/home.html', {"session": session }, request = req)
   
+def search(req):
+  session = req.session
+  search_val = str(req.POST.get('search-val'))
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  quuery = "SELECT * FROM Users WHERE name LIKE '%"+ search_val + "%';"
+  cursor.execute()
+  return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
 
 
 def browse(req):
@@ -120,8 +130,12 @@ if __name__ == '__main__':
 
   config.add_route('logout', '/logout')
   config.add_view(logout , route_name='logout', request_method='GET')
+  
   config.add_route('profile', '/profile')
   config.add_view(profile , route_name='profile', request_method='GET')
+
+  config.add_route('search', '/search')
+  config.add_view(search , route_name='search', request_method='POST')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

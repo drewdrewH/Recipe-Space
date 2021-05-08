@@ -16,6 +16,16 @@
 <body>
         {% include 'navbar.html' %}
 
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+              <td> {{recipe[0]}} </td>
+              <td> {{recipe[1]}} </td>
+              <td> {{recipe[2]}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+
 
 </body>
 </html>
