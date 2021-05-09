@@ -37,6 +37,7 @@ def sign_up(req):
   name = str(req.POST.get('name-signUp'))
   password = str(req.POST.get('password-SignUp'))
   email = str(req.POST.get('email-Signup'))
+  session = req.session
   session['login'] = True
   session['email'] = email
   print(name , password, email)
@@ -59,7 +60,7 @@ def sign_up(req):
   
   db.close()
   print(msg)
-  return render_to_response('templates/home.html', {'session':session}, request = req)
+  return render_to_response('templates/home.html', {"session": session }, request = req)
 
 
 def login(req):
@@ -101,8 +102,10 @@ def search(req):
   search_val = str(req.POST.get('search-val'))
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  quuery = "SELECT * FROM Users WHERE name LIKE '%"+ search_val + "%';"
-  cursor.execute()
+  query = "SELECT * FROM Users WHERE full_name LIKE '%"+ search_val + "%';"
+  cursor.execute(query)
+  records = [['title','ingredients','time to make'],]
+  db.close()
   return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
 
 

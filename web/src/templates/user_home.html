@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -17,12 +17,7 @@
     {% if session['login']  %}
     {% include 'user_nav.html' %}
     {% endif %}
-    <div class="search">
-      <div class="searchbar">
-          <input class="searchtext" type="text" placeholder="Search Recipe..." />
-          <button type="button" class="searchsubmit" id="searchsubmit"></button>
-      </div>
-  </div>
+    {% include 'search.html' %}
 
        
 
