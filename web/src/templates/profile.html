@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -13,14 +13,13 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
   </head>
 
-  <body>
-    {% if session['login']  %}
+  <body >
     {% include 'user_nav.html' %}
-    {% else %}
-    {% include 'navbar.html' %}
-    {% endif %}
-    
-    {% include 'search.html' %}
+    <form action="/logout" class="logout-form">
+        <button class= 'logout' >Logout</button>
+    </form>
+  
+ 
        
 
   </body>

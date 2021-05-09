@@ -1,10 +1,11 @@
 <link rel="stylesheet" type="text/css" href="css/modal.css">
 
 <header>
-<h1 class = 'logo'>Recipe Space</h1>
+<img src ="css/img/logoResize.png">
 
 <ul class="nav">
 <li class="navlink"><a href="/">Home</a></li>
+<li class="navlink"><a href="/browse">Browse</a></li>
 <li class="navlink"><a href="/">About</a></li>
 <li class="navlink"><a id= 'modalButton' >Login</a></li>
 </ul>
@@ -25,9 +26,9 @@
     <div class="modal-form">
         <form method="POST" action="/login" class="sign" id = 'sign'>
           
-          <input placeholder="Email" type="text" id="email">
+          <input placeholder="Email" type="text" name='email' id="email">
           
-          <input placeholder="Password" type="password" id="password">
+          <input placeholder="Password" name = 'password' type="password" id="password">
           <input type="submit" id="submit" value="Submit">
         </form>
        
