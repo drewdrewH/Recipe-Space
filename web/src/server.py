@@ -102,9 +102,9 @@ def search(req):
   search_val = str(req.POST.get('search-val'))
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  query = "SELECT * FROM Users WHERE full_name LIKE '%"+ search_val + "%';"
+  query = "SELECT * FROM Recipes WHERE name LIKE '%"+ search_val + "%';"
   cursor.execute(query)
-  records = [['title','ingredients','time to make'],]
+  records = cursor.fetchall()
   db.close()
   return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
 
