@@ -31,10 +31,14 @@ def sign_up(req):
     # Check if "name", "password" and "email" POST reqs exist (user submitted POST)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
+  session = req.session
   
+ 
   name = str(req.POST.get('name-signUp'))
   password = str(req.POST.get('password-SignUp'))
   email = str(req.POST.get('email-Signup'))
+  session['login'] = True
+  session['email'] = email
   print(name , password, email)
   cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
   account = cursor.fetchone()
@@ -55,7 +59,7 @@ def sign_up(req):
   
   db.close()
   print(msg)
-  return render_to_response('templates/home.html', {}, request = req)
+  return render_to_response('templates/home.html', {'session':session}, request = req)
 
 
 def login(req):
@@ -72,7 +76,7 @@ def login(req):
   if account:
      # Create session data, we can access this data in other routes
     session = req.session
-    session['login'] = True;
+    session['login'] = True
     session['id'] = account[0]
     session['email'] = account[2]
             # Redirect to home page
