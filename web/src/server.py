@@ -18,7 +18,14 @@ def get_home(req):
   
   session = req.session
   
-  return render_to_response('templates/home.html',{'session':session},request = req )
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  
+  cursor.execute("SELECT * FROM Recipes;")
+  records = cursor.fetchall()
+  db.close()
+  
+  return render_to_response('templates/home.html',{'session':session, 'recipes':records},request = req )
 
 def profile(req):
   
@@ -72,7 +79,7 @@ def login(req):
   cursor = db.cursor()
   cursor.execute('SELECT * FROM Users WHERE email = %s and password = %s;', (email,password))
   account = cursor.fetchone()
-  db.close()
+  
   print(account)
   if account:
      # Create session data, we can access this data in other routes
@@ -80,8 +87,14 @@ def login(req):
     session['login'] = True
     session['id'] = account[0]
     session['email'] = account[2]
+
+  
+  
+    cursor.execute("SELECT * FROM Recipes;")
+    records = cursor.fetchall()
+    db.close()
             # Redirect to home page
-    return render_to_response('templates/home.html', {"session": session }, request = req)
+    return render_to_response('templates/home.html', {"session": session, 'recipes':records }, request = req)
   else:
             # Account doesnt exist or username/password incorrect
     return 'Incorrect username/password!'

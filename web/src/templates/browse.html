@@ -11,21 +11,56 @@
     <meta name="description" content="Recipe Heaven">
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/card.css">
 </head>
 
 <body>
         {% include 'navbar.html' %}
+        {% include 'search.html' %}
 
-        <tbody>
-            {% for recipe in recipes %}
-            <tr>
-              <td> {{recipe[0]}} </td>
-              <td> {{recipe[1]}} </td>
-              <td> {{recipe[2]}} </td>
-            </tr>
-            {% endfor %}
-          </tbody>
+        <div class = "grid-container">
+        {% for recipe in recipes %}
 
+        <div class="recipecard">
+          <img class="recipeimg" src = {{recipe[8]}}>
+          <img class="bookmark" src="/images/bookmark_full.png">
+          <div class="recipecontent">
+              <h3 class="recipetitle"> {{recipe[1]}} </h3>
+              <div class="recipestatblock">
+                  <div class="recipestatlabel">
+                      <p> Taste: {{recipe[9]}} </p>
+                      <p> Ease: {{recipe[10]}} </p>
+                      <p> Cleanup: {{recipe[11]}} </p>
+                  </div>
+                  <div class="recipestatlabel">
+                      <p> ⭐⭐⭐ </p> <!--taste-->
+                      <p> ⭐⭐ </p> <!--ease-->
+                      <p> ⭐ </p> <!--cleanup-->
+                  </div>
+              </div> <!--recipestatblock-->
+              <div class="recipebottomcontent">
+                  <p> {{recipe[4]}}</p>
+                 <!-- <ul class="recipekeyingredients">
+                      <li class="gluten"> Flour </li>
+                      <li class="dairy"> Cheese </li>
+                      <li> Water </li>
+                      <li class="dairy"> Half and Half </li>
+                      <li> Paprika </li>
+                  </ul> --> <!--recipekeyingredients--> 
 
+                  <div class="recipetimeblock">
+                      <p> Cook Time: </p>
+                      <p class="recipedurationtime">
+                          {{recipe[2]}} m
+                      </p>
+                  </div>
+      
+              </div> <!--recipebottomcontent-->
+          </div> <!--recipecontent-->
+      </div> <!--recipecard-->
+
+      {% endfor %}
+      
+</div>
 </body>
 </html>
