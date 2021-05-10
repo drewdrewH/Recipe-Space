@@ -87,9 +87,6 @@ def login(req):
     session['login'] = True
     session['id'] = account[0]
     session['email'] = account[2]
-
-  
-  
     cursor.execute("SELECT * FROM Recipes;")
     records = cursor.fetchall()
     db.close()
