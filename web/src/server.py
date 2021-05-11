@@ -146,7 +146,6 @@ def bookmark(req):
   cursor.execute(query, record)
   db.commit()
   db.close()
-
   
 
   return render_to_response('templates/browse.html', {}, request=req)
