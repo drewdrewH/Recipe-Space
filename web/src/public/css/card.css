@@ -24,6 +24,8 @@
   .recipecard .recipeimg {
     width:100%;
     border-bottom: 2px solid #c41560;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
   }
   
   .recipecard .bookmark {
