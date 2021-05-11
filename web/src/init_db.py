@@ -30,6 +30,7 @@ cursor = db.cursor()
 try:
   cursor.execute("DROP TABLE IF EXISTS Users;")
   cursor.execute("DROP TABLE IF EXISTS Recipes;")
+  cursor.execute("DROP TABLE IF EXISTS Bookmarks;")
   db.commit()
 except (mysql.Error, mysql.Warning) as e:
   print(e, 'ERROR')
@@ -52,6 +53,29 @@ try:
   cursor.execute("""
     CREATE TABLE IF NOT EXISTS Recipes (
       id          integer  AUTO_INCREMENT PRIMARY KEY,
+      name        VARCHAR(100) NOT NULL,
+      time        INT NOT NULL,
+      serving     VARCHAR(100),
+      ingredients VARCHAR(4000) NOT NULL,
+      instructions VARCHAR(4000) NOT NULL,
+      nutrition   VARCHAR(2000),
+      related     VARCHAR(500),
+      image        VARCHAR(1000) NOT NULL,
+        taste       INT NOT NULL,
+      ease        INT NOT NULL,
+      cleanup     INT NOT NULL,
+      created_at  datetime default(current_timestamp)
+    );
+  """)
+except (mysql.Error, mysql.Warning) as e:
+  print(e, 'ERROR')
+
+
+try:
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Bookmarks (
+      id          integer  AUTO_INCREMENT PRIMARY KEY,
+      email       VARCHAR(100),
       name        VARCHAR(100) NOT NULL,
       time        INT NOT NULL,
       serving     VARCHAR(100),

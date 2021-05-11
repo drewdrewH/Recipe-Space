@@ -30,8 +30,15 @@ def get_home(req):
 def profile(req):
   
   session = req.session
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  email = session['email']
+  cursor.execute("SELECT * FROM Bookmarks WHERE email = %s ;",(email,))
+  records = cursor.fetchall()
   
-  return render_to_response('templates/profile.html',{'session':session},request = req )
+  db.close()
+  
+  return render_to_response('templates/profile.html',{'session':session, 'recipes':records },request = req )
 
 def sign_up(req):
   msg = ''
@@ -123,6 +130,27 @@ def browse(req):
 
   return render_to_response('templates/browse.html', {}, request=req)
 
+def bookmark(req):
+  recipe = req.json_body.get('recipe')
+  email = req.json_body.get('email')
+  print(recipe)
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  cursor.execute('SELECT * FROM Recipes WHERE name = %s ;', (recipe,))
+  record = list(cursor.fetchone())
+  record = record[1:len(record)-1]
+  record.insert(0, email)
+  
+  query = """insert into Bookmarks (email, name, time, serving, ingredients, instructions,
+            nutrition, related, image, taste, ease, cleanup) values (%s,%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s);"""
+  cursor.execute(query, record)
+  db.commit()
+  db.close()
+
+  
+
+  return render_to_response('templates/browse.html', {}, request=req)
+
 ''' Route Configurations '''
 if __name__ == '__main__':
   config = Configurator()
@@ -153,6 +181,9 @@ if __name__ == '__main__':
 
   config.add_route('search', '/search')
   config.add_view(search , route_name='search', request_method='POST')
+
+  config.add_route('bookmark', '/bookmark')
+  config.add_view(bookmark , route_name='bookmark', request_method='POST')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

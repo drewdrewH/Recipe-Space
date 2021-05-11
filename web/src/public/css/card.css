@@ -2,7 +2,7 @@
     border:2px solid #c41560;
     border-radius:14px;
     position:relative;
-    box-shadow: 15px 15px 15px rgba(0,0,0,0.41);
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2);
     transform: scale(1);
     transition: box-shadow 0.4s, transform 0.2s;
     
@@ -11,8 +11,8 @@
     margin-top: 20px;
     display: grid;
     grid-template-columns: auto auto auto auto ;
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-column-gap: 35px;
+    grid-row-gap: 55px;
     padding: 20px;
   }
   

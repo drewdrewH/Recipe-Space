@@ -11,6 +11,7 @@
     <meta name="description" content="Recipe Heaven">
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/card.css">
   </head>
 
   <body >
@@ -18,6 +19,51 @@
     <form action="/logout" class="logout-form">
         <button class= 'logout' >Logout</button>
     </form>
+
+    <div class = "grid-container">
+      {% for recipe in recipes %}
+
+      <div class="recipecard">
+        <img class="recipeimg" src = {{recipe[9]}}>
+        <img class="bookmark" src="/images/bookmark_full.png">
+        <div class="recipecontent">
+            <h3 class="recipetitle"> {{recipe[2]}} </h3>
+            <div class="recipestatblock">
+                <div class="recipestatlabel">
+                    <p> Taste: {{recipe[10]}} </p>
+                    <p> Ease: {{recipe[11]}} </p>
+                    <p> Cleanup: {{recipe[12]}} </p>
+                </div>
+                <div class="recipestatlabel">
+                    <p> ⭐⭐⭐ </p> <!--taste-->
+                    <p> ⭐⭐ </p> <!--ease-->
+                    <p> ⭐ </p> <!--cleanup-->
+                </div>
+            </div> <!--recipestatblock-->
+            <div class="recipebottomcontent">
+                <p> {{recipe[5]}}</p>
+               <!-- <ul class="recipekeyingredients">
+                    <li class="gluten"> Flour </li>
+                    <li class="dairy"> Cheese </li>
+                    <li> Water </li>
+                    <li class="dairy"> Half and Half </li>
+                    <li> Paprika </li>
+                </ul> --> <!--recipekeyingredients--> 
+
+                <div class="recipetimeblock">
+                    <p> Cook Time: </p>
+                    <p class="recipedurationtime">
+                        {{recipe[3]}} m
+                    </p>
+                </div>
+    
+            </div> <!--recipebottomcontent-->
+        </div> <!--recipecontent-->
+    </div> <!--recipecard-->
+
+    {% endfor %}
+    
+</div>
   
  
        
