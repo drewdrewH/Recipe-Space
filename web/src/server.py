@@ -4,7 +4,7 @@ from pyramid.renderers import render_to_response, render
 from pyramid.session import SignedCookieSessionFactory
 
 import re
-
+import json
 import mysql.connector as mysql
 import os
 
@@ -20,13 +20,25 @@ def get_home(req):
   session = req.session
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  cursor.execute("SELECT * FROM Recipes r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name ORDER BY count(*) DESC LIMIT 4) p on r.name = p.name;")
+  cursor.execute("SELECT DISTINCT * FROM Recipes r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name ORDER BY count(*) DESC LIMIT 4) p on r.name = p.name;")
   popular = cursor.fetchall()
+  ingredients = {}
+
+  for i in popular:
+    top_5 = i[4].split(';')
+    ingredients.update({str(i[1]):top_5[:5]})
   cursor.execute("SELECT * FROM Recipes;")
   records = cursor.fetchall()
+
+  basic = {}
+  for i in records:
+    top_5 = i[4].split(';')
+    basic.update({str(i[1]):top_5[:5]})
   db.close()
+
+
   
-  return render_to_response('templates/home.html',{'session':session, 'recipes':records, 'popular':popular},request = req )
+  return render_to_response('templates/home.html',{'session':session, 'recipes':records, 'popular':popular, 'ingredients':ingredients, 'basic':basic},request = req )
 
 def profile(req):
   
@@ -75,7 +87,7 @@ def sign_up(req):
   
   db.close()
   print(msg)
-  return render_to_response('templates/home.html', {"session": session }, request = req)
+  return render_to_response('templates/profile.html', {"session": session }, request = req)
 
 
 def login(req):
@@ -99,7 +111,7 @@ def login(req):
     records = cursor.fetchall()
     db.close()
             # Redirect to home page
-    return render_to_response('templates/home.html', {"session": session, 'recipes':records }, request = req)
+    return get_home(req)
   else:
             # Account doesnt exist or username/password incorrect
     return 'Incorrect username/password!'
@@ -113,7 +125,7 @@ def logout(req):
 
   session = req.session
   session['login'] = False
-  return render_to_response('templates/home.html', {"session": session }, request = req)
+  return get_home(req)
   
 def search(req):
   session = req.session
@@ -147,7 +159,7 @@ def bookmark(req):
   print(recipe)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  cursor.execute('SELECT * FROM Recipes WHERE name = %s ;', (recipe,))
+  cursor.execute('SELECT DISTINCT * FROM Recipes WHERE name = %s ;', (recipe,))
   record = list(cursor.fetchone())
   record = record[1:len(record)-1]
   record.insert(0, email)
@@ -158,8 +170,9 @@ def bookmark(req):
   db.commit()
   db.close()
   
+  json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
 
-  return render_to_response('templates/browse.html', {'session':session}, request=req)
+  return json_object
 
 ''' Route Configurations '''
 if __name__ == '__main__':
@@ -193,7 +206,7 @@ if __name__ == '__main__':
   config.add_view(search , route_name='search', request_method='POST')
 
   config.add_route('bookmark', '/bookmark')
-  config.add_view(bookmark , route_name='bookmark', request_method='POST')
+  config.add_view(bookmark , route_name='bookmark', request_method='POST', renderer='json')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

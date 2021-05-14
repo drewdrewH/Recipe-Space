@@ -5,7 +5,7 @@
     box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.2);
     transform: scale(1);
     transition: box-shadow 0.4s, transform 0.2s;
-    
+    background-color: #c41560;
     width:fit-content;
     
   }
@@ -15,8 +15,8 @@
     grid-template-columns: auto auto auto auto ;
     grid-column-gap: 35px;
     grid-row-gap: 55px;
-    width:80%;
-    margin-left: 10%;
+    width:90%;
+    margin-left: 5%;
   }
   
   .recipecard:hover {
@@ -60,6 +60,7 @@
     padding:0;
     padding-left:2%;
     font-size:xx-large;
+    color: white;
   }
   
   .recipecard .recipestatblock {
@@ -69,6 +70,7 @@
     line-height: 1.6rem;
     justify-content: space-between;
     font-size: large;
+    color: white;
   }
   
   .recipecard .recipestatlabel {
@@ -76,17 +78,20 @@
     flex-direction: column;
     align-items:flex-end;
     justify-content: space-between;
+    color: white;
   }
   
   
   .recipecard .recipestatlabel p {
     margin:0;
     padding:0;
+    color: white;
   }
   
   
   .recipecard .recipebottomcontent {
     margin-top:1rem; 
+    color: white;
   }
   
   
@@ -98,23 +103,28 @@
     flex-wrap: wrap;
     justify-content: space-around;
     font-size:large;
+    color: white;
   }
   
   .recipecard .recipekeyingredients li {
-    background: #ccc;
+    background:white;
     border-radius: 14px;
+    font-weight: bolder;
     margin: 2% 3%;
-    padding: 2%
+    padding: 2%;
+    color:#c41560;
   }
   
   .recipecard .recipetimeblock {
     display:flex;
     justify-content: center;
     font-size: large;
+    color: white;
   }
   
   .recipecard .recipetimeblock .recipedurationtime {
     font-weight: bold;
     margin-left:5%;
+    color: white;
   }
   

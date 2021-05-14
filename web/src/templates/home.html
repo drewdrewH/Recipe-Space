@@ -52,14 +52,12 @@
           </div>
           <!--recipestatblock-->
           <div class="recipebottomcontent">
-            <p>{{recipe[4]}}</p>
-            <!-- <ul class="recipekeyingredients">
-                    <li class="gluten"> Flour </li>
-                    <li class="dairy"> Cheese </li>
-                    <li> Water </li>
-                    <li class="dairy"> Half and Half </li>
-                    <li> Paprika </li>
-                </ul> -->
+            
+            <ul class="recipekeyingredients">
+                    {% for ingredient in ingredients[recipe[1]] %}
+                    <li class="ingredient"> {{ingredient}}</li>
+                    {% endfor %}
+                </ul> 
             <!--recipekeyingredients-->
 
             <div class="recipetimeblock">
@@ -134,14 +132,13 @@
           </div>
           <!--recipestatblock-->
           <div class="recipebottomcontent">
-            <p>{{recipe[4]}}</p>
-            <!-- <ul class="recipekeyingredients">
-                    <li class="gluten"> Flour </li>
-                    <li class="dairy"> Cheese </li>
-                    <li> Water </li>
-                    <li class="dairy"> Half and Half </li>
-                    <li> Paprika </li>
-                </ul> -->
+            
+            <ul class="recipekeyingredients">
+              {% for ing in basic[recipe[1]] %}
+                <li class="ingredient"> {{ing}}</li>
+              {% endfor %}
+                 
+            </ul> 
             <!--recipekeyingredients-->
 
             <div class="recipetimeblock">

@@ -21,6 +21,8 @@ services:
       ./credentials.env
     ports:
       - 3306:3306 # host : container
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - ./db:/var/lib/mysql # persistent DB when container is stopped
     container_name: recipespace-db
