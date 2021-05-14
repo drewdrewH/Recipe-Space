@@ -1,101 +1,187 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Page Info -->
     <title>Recipe Space</title>
-    <meta name="author" content="Andrew Hernandez, Gourab, Mark, Freddy">
-    <meta name="description" content="Recipe Heaven">
+    <meta name="author" content="Andrew Hernandez, Gourab, Mark, Freddy" />
+    <meta name="description" content="Recipe Heaven" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/card.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/card.css" />
   </head>
 
   <body>
-    {% if session['login']  %}
-    {% include 'user_nav.html' %}
-    {% else %}
-    {% include 'navbar.html' %}
-    {% endif %}
-    
-    {% include 'search.html' %}
-
-    <div class = "grid-container">
-      {% for recipe in recipes %}
+    {% if session['login'] %} {% include 'user_nav.html' %} {% else %} {%
+    include 'navbar.html' %} {% endif %} {% include 'search.html' %}
+    <h1 class = "grid-titles">Popular Recipes</h1>
+    <hr class ="line-split"/>
+    <div class="grid-container">
+      {% for recipe in popular %}
 
       <div class="recipecard">
-        <img class="recipeimg" src = '{{recipe[8]}}'>
-        <img  onClick="bookData(this.id);" id ='{{recipe[1]}}' class="bookmark" src="/images/bookmark_full.png">
+        <img class="recipeimg" src="{{recipe[8]}}" />
+        <img
+          onClick="bookData(this.id);"
+          id="{{recipe[1]}}"
+          class="bookmark"
+          src="https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"
+        />
         <div class="recipecontent">
-            <h3 class="recipetitle"> {{recipe[1]}} </h3>
-            <div class="recipestatblock">
-                <div class="recipestatlabel">
-                    <p> Taste: {{recipe[9]}} </p>
-                    <p> Ease: {{recipe[10]}} </p>
-                    <p> Cleanup: {{recipe[11]}} </p>
-                </div>
-                <div class="recipestatlabel">
-                    <p> ⭐⭐⭐ </p> <!--taste-->
-                    <p> ⭐⭐ </p> <!--ease-->
-                    <p> ⭐ </p> <!--cleanup-->
-                </div>
-            </div> <!--recipestatblock-->
-            <div class="recipebottomcontent">
-                <p> {{recipe[4]}}</p>
-               <!-- <ul class="recipekeyingredients">
+          <h3 class="recipetitle">{{recipe[1]}}</h3>
+          <div class="recipestatblock">
+            <div class="recipestatlabel">
+              <p>Taste: {{recipe[9]}}</p>
+              <p>Ease: {{recipe[10]}}</p>
+              <p>Cleanup: {{recipe[11]}}</p>
+            </div>
+            <div class="recipestatlabel">
+              <p>⭐⭐⭐</p>
+              <!--taste-->
+              <p>⭐⭐</p>
+              <!--ease-->
+              <p>⭐</p>
+              <!--cleanup-->
+            </div>
+          </div>
+          <!--recipestatblock-->
+          <div class="recipebottomcontent">
+            <p>{{recipe[4]}}</p>
+            <!-- <ul class="recipekeyingredients">
                     <li class="gluten"> Flour </li>
                     <li class="dairy"> Cheese </li>
                     <li> Water </li>
                     <li class="dairy"> Half and Half </li>
                     <li> Paprika </li>
-                </ul> --> <!--recipekeyingredients--> 
+                </ul> -->
+            <!--recipekeyingredients-->
 
-                <div class="recipetimeblock">
-                    <p> Cook Time: </p>
-                    <p class="recipedurationtime">
-                        {{recipe[2]}} m
-                    </p>
-                </div>
-    
-            </div> <!--recipebottomcontent-->
-        </div> <!--recipecontent-->
-        {% if session['login']  %}
+            <div class="recipetimeblock">
+              <p>Cook Time:</p>
+              <p class="recipedurationtime">{{recipe[2]}} m</p>
+            </div>
+          </div>
+          <!--recipebottomcontent-->
+        </div>
+        <!--recipecontent-->
+        {% if session['login'] %}
         <script>
-           // var id = '{{recipe[1]}}';
-           // var bm = document.getElementById(id);
-            //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}} 
-            
-            
-            function bookData(id){
-                console.log(id);
-                var data = {'recipe': String(id), 'email' : '{{session["email"]}}'}
-                fetch( 'http://127.0.0.1/bookmark', {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {"Content-type": "application/json; charset=UTF-8"}
-                  })
-                  .then(function(response){
-                    if (response.status >= 200 && response.status <= 299) {
-                        return response.json();
-                    } else {
-                        throw Error(response.statusText);
-                    }
-                  }) 
-                  .then().catch(error =>{});
-                
+          // var id = '{{recipe[1]}}';
+          // var bm = document.getElementById(id);
+          //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}}
+
+          function bookData(id) {
+            console.log(id);
+            var data = { recipe: String(id), email: '{{session["email"]}}' };
+            fetch("http://localhost/bookmark", {
+              
+              method: "POST",
+              body: JSON.stringify(data),
+              headers: { "Content-type": "application/json; charset=UTF-8" },
+            })
+              .then(function (response) {
+                if (response.status >= 200 && response.status <= 299) {
+                  return response.json();
+                } else {
+                  throw Error(response.statusText);
                 }
-                
+              })
+              .then()
+              .catch((error) => {});
+          }
         </script>
-    {% endif %}
-    </div> <!--recipecard-->
+        {% endif %}
+      </div>
+      <!--recipecard-->
 
-    {% endfor %}
-    
-</div>
-       
+      {% endfor %}
+    </div>
+    <h1 class = "grid-titles">All Recipes</h1>
+    <hr class ="line-split"/>
+    <div class="grid-container">
+      {% for recipe in recipes %}
 
+      <div class="recipecard">
+        <img class="recipeimg" src="{{recipe[8]}}" />
+        <img
+          onClick="bookData(this.id);"
+          id="{{recipe[1]}}"
+          class="bookmark"
+          src="https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"
+        />
+        <div class="recipecontent">
+          <h3 class="recipetitle">{{recipe[1]}}</h3>
+          <div class="recipestatblock">
+            <div class="recipestatlabel">
+              <p>Taste: {{recipe[9]}}</p>
+              <p>Ease: {{recipe[10]}}</p>
+              <p>Cleanup: {{recipe[11]}}</p>
+            </div>
+            <div class="recipestatlabel">
+              <p>⭐⭐⭐</p>
+              <!--taste-->
+              <p>⭐⭐</p>
+              <!--ease-->
+              <p>⭐</p>
+              <!--cleanup-->
+            </div>
+          </div>
+          <!--recipestatblock-->
+          <div class="recipebottomcontent">
+            <p>{{recipe[4]}}</p>
+            <!-- <ul class="recipekeyingredients">
+                    <li class="gluten"> Flour </li>
+                    <li class="dairy"> Cheese </li>
+                    <li> Water </li>
+                    <li class="dairy"> Half and Half </li>
+                    <li> Paprika </li>
+                </ul> -->
+            <!--recipekeyingredients-->
+
+            <div class="recipetimeblock">
+              <p>Cook Time:</p>
+              <p class="recipedurationtime">{{recipe[2]}} m</p>
+            </div>
+          </div>
+          <!--recipebottomcontent-->
+        </div>
+        <!--recipecontent-->
+        {% if session['login'] %}
+        <script>
+          // var id = '{{recipe[1]}}';
+          // var bm = document.getElementById(id);
+          //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}}
+
+          function bookData(id) {
+            console.log(id);
+            var data = { recipe: String(id), email: '{{session["email"]}}' };
+            fetch("http://localhost/bookmark", {
+              method: "POST",
+              body: JSON.stringify(data),
+              headers: { "Content-type": "application/json; charset=UTF-8" },
+            })
+              .then(function (response) {
+                if (response.status >= 200 && response.status <= 299) {
+                  return response.json();
+                } else {
+                  throw Error(response.statusText);
+                }
+              })
+              .then()
+              .catch((error) => {});
+          }
+        </script>
+        {% endif %}
+      </div>
+      <!--recipecard-->
+
+      {% endfor %}
+    </div>
   </body>
 </html>

@@ -16,16 +16,17 @@ db_host = os.environ['MYSQL_HOST']
 
 def get_home(req):
   
+
   session = req.session
-  
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
-  
+  cursor.execute("SELECT * FROM Recipes r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name ORDER BY count(*) DESC LIMIT 4) p on r.name = p.name;")
+  popular = cursor.fetchall()
   cursor.execute("SELECT * FROM Recipes;")
   records = cursor.fetchall()
   db.close()
   
-  return render_to_response('templates/home.html',{'session':session, 'recipes':records},request = req )
+  return render_to_response('templates/home.html',{'session':session, 'recipes':records, 'popular':popular},request = req )
 
 def profile(req):
   
@@ -127,10 +128,20 @@ def search(req):
 
 
 def browse(req):
+  session = req.session
+  
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  
+  cursor.execute("SELECT * FROM Recipes;")
+  records = cursor.fetchall()
+  db.close()
 
-  return render_to_response('templates/browse.html', {}, request=req)
+
+  return render_to_response('templates/browse.html', {'session':session, 'recipes':records}, request=req)
 
 def bookmark(req):
+  session = req.session
   recipe = req.json_body.get('recipe')
   email = req.json_body.get('email')
   print(recipe)
@@ -148,7 +159,7 @@ def bookmark(req):
   db.close()
   
 
-  return render_to_response('templates/browse.html', {}, request=req)
+  return render_to_response('templates/browse.html', {'session':session}, request=req)
 
 ''' Route Configurations '''
 if __name__ == '__main__':

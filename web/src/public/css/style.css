@@ -10,6 +10,21 @@ header {
     justify-content: space-around;
     box-shadow: 0 3px 12px #999;
     }
+.grid-titles{
+margin-left: 10%;
+ margin-top: 3%;
+color: #c41560;
+font-size: xx-large;
+
+}
+.line-split{
+ background-color: #c41560;
+ color: #c41560;
+ height: 2px;
+ width: 80%;
+ margin-left: 10%;
+
+}
 
 .logout-form{
     margin-top: 5%;
