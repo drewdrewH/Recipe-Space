@@ -1,0 +1,9 @@
+.search_autocomplete {
+    display: block;
+    background-color: white;
+    box-shadow: 0 3px 12px #999;
+}
+
+.autocomplete_entry {
+    border-bottom: 1px grey solid;
+}

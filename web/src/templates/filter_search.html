@@ -1,0 +1,8 @@
+<div  class="search">
+    <form method='POST' action='/filter_ingredient' class="searchbar">
+        <input name='filter-search-val' id='filter-search-val' class="searchtext" type="text" placeholder="Search Ingredient..." />
+        <button type="submit" class="searchsubmit" id="filtersearchsubmit"/>
+    </form >
+</div>
+{% include 'search_autocomplete.html' %}
+<script src="css/filterIngredients.js"></script>

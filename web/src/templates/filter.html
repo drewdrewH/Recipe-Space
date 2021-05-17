@@ -1,0 +1,41 @@
+<div class="filterclass">
+    <div class="filteringredient">
+        <h2>Filter Results</h2>
+        {% include 'filter_search.html' %}
+        {% for ingredient in ingredients %}
+        <template id="ingredientTemplate">
+            <div class="ingredientitem"></div>
+        </template>
+        {% endfor %}
+        <section class="filtertoggles">
+            <div>
+                <input type="checkbox" class="toggle" id="tvegetarian">
+                <p id="vegetarian">Vegetarian</p>
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="tvegan">
+                <p id="vegan">Vegan</p>
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="thalal">
+                <p id="halal">Halal</p> <!--not sure about this one-->
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="tkosher">
+                <p id="kosher">Kosher</p> <!--not sure about this one-->
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="tglutenfree">
+                <p id="glutenfree">Gluten Free</p>
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="tlactoseintolerant">
+                <p id="lactoseintolerant">Lactose Intolerant</p>
+            </div>
+            <div>
+                <input type="checkbox" class="toggle" id="tpeanutallergies">
+                <p id="peanutallergies">Peanut Allergies</p>
+            </div>
+        </section>
+    </div>
+</div>

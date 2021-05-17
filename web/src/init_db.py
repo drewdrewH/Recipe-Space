@@ -21,6 +21,12 @@ for row in data:
   row[1] = int(row[1])
   row[7] = str(row[7])
 
+with open('IngredientDatabase.csv', newline='') as csvfile:
+  idata = list(csv.reader(csvfile))
+  idata = idata[1:]
+  for irow in idata:
+    irow[0] = str(irow[0])
+
 
 # Connect to the database
 db = mysql.connect(user=db_user, password=db_pass, host=db_host, database=db_name)
@@ -31,6 +37,7 @@ try:
   cursor.execute("DROP TABLE IF EXISTS Users;")
   cursor.execute("DROP TABLE IF EXISTS Recipes;")
   cursor.execute("DROP TABLE IF EXISTS Bookmarks;")
+  cursor.execute("DROP TABLE IF EXISTS Ingredients;")
   db.commit()
 except (mysql.Error, mysql.Warning) as e:
   print(e, 'ERROR')
@@ -93,6 +100,16 @@ try:
 except (mysql.Error, mysql.Warning) as e:
   print(e, 'ERROR')
   
+try:
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Ingredients (
+      id          integer  AUTO_INCREMENT PRIMARY KEY,
+      ingredient  VARCHAR(50) NOT NULL
+    );
+  """)
+except:
+  print("Ingredient table already exists. Not recreating it.")
+  
 
 # Insert Records
 query = "insert into Users (full_name, email, password) values (%s, %s,  %s);"
@@ -105,6 +122,9 @@ cursor.executemany(query, values)
 query = """insert into Recipes (name, time, serving, ingredients, instructions,
             nutrition, related, image, taste, ease, cleanup) values (%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s);"""
 cursor.executemany(query, data)
+
+query = """insert into Ingredients (ingredient) values (%s);"""
+cursor.executemany(query, idata)
 db.commit()
 
 # Selecting Records
@@ -113,6 +133,10 @@ print('---------- DATABASE INITIALIZED ----------')
 [print(x) for x in cursor]
 
 cursor.execute("select * from Recipes;")
+print('---------- DATABASE INITIALIZED ----------')
+[print(x) for x in cursor]
+
+cursor.execute("select * from Ingredients;")
 print('---------- DATABASE INITIALIZED ----------')
 [print(x) for x in cursor]
 db.close()

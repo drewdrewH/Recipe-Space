@@ -20,74 +20,76 @@
   <body>
     {% if session['login'] %} {% include 'user_nav.html' %} {% else %} {%
         include 'navbar.html' %} {% endif %} {% include 'search.html' %} 
+    <div class="filtergrid">
+      <div class="grid-container">
+        {% for recipe in recipes %}
 
-    <div class="grid-container">
-      {% for recipe in recipes %}
-
-      <div class="recipecard">
-        <img class="recipeimg" src="{{recipe[8]}}" />
-        <img
-          onClick="bookData(this.id);"
-          id="{{recipe[1]}}"
-          class="bookmark"
-          src="https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"
-        />
-        <div class="recipecontent">
-          <h3 class="recipetitle">{{recipe[1]}}</h3>
-          <div class="recipestatblock">
-            <div class="recipestatlabel">
-              <p>Taste: {{recipe[9]}}</p>
-              <p>Ease: {{recipe[10]}}</p>
-              <p>Cleanup: {{recipe[11]}}</p>
+        <div class="recipecard">
+          <img class="recipeimg" src="{{recipe[8]}}" />
+          <img
+            onClick="bookData(this.id);"
+            id="{{recipe[1]}}"
+            class="bookmark"
+            src="https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"
+          />
+          <div class="recipecontent">
+            <h3 class="recipetitle">{{recipe[1]}}</h3>
+            <div class="recipestatblock">
+              <div class="recipestatlabel">
+                <p>Taste: {{recipe[9]}}</p>
+                <p>Ease: {{recipe[10]}}</p>
+                <p>Cleanup: {{recipe[11]}}</p>
+              </div>
+              <div class="recipestatlabel">
+                <p>⭐⭐⭐</p>
+                <!--taste-->
+                <p>⭐⭐</p>
+                <!--ease-->
+                <p>⭐</p>
+                <!--cleanup-->
+              </div>
             </div>
-            <div class="recipestatlabel">
-              <p>⭐⭐⭐</p>
-              <!--taste-->
-              <p>⭐⭐</p>
-              <!--ease-->
-              <p>⭐</p>
-              <!--cleanup-->
+            <!--recipestatblock-->
+            <div class="recipebottomcontent">
+              <p>{{recipe[4]}}</p>
+              <div class="recipetimeblock">
+                <p>Cook Time:</p>
+                <p class="recipedurationtime">{{recipe[2]}} m</p>
+              </div>
             </div>
+            <!--recipebottomcontent-->
           </div>
-          <!--recipestatblock-->
-          <div class="recipebottomcontent">
-            <p>{{recipe[4]}}</p>
-            <div class="recipetimeblock">
-              <p>Cook Time:</p>
-              <p class="recipedurationtime">{{recipe[2]}} m</p>
-            </div>
-          </div>
-          <!--recipebottomcontent-->
-        </div>
-        <!--recipecontent-->
-        {% if session['login'] %}
-        <script>
-          
-          function bookData(id) {
-            console.log(id);
-            var data = { recipe: String(id), email: '{{session["email"]}}' };
-            fetch("http://127.0.0.1/bookmark", {
-              mode: "no-cors",
-              method: "POST",
-              body: JSON.stringify(data),
-              headers: { "Content-type": "application/json; charset=UTF-8" },
-            })
-              .then(function (response) {
-                if (response.status >= 200 && response.status <= 299) {
-                  return response.json();
-                } else {
-                  throw Error(response.statusText);
-                }
+          <!--recipecontent-->
+          {% if session['login'] %}
+          <script>
+            
+            function bookData(id) {
+              console.log(id);
+              var data = { recipe: String(id), email: '{{session["email"]}}' };
+              fetch("http://127.0.0.1/bookmark", {
+                mode: "no-cors",
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-type": "application/json; charset=UTF-8" },
               })
-              .then()
-              .catch((error) => {});
-          }
-        </script>
-        {% endif %}
-      </div>
-      <!--recipecard-->
+                .then(function (response) {
+                  if (response.status >= 200 && response.status <= 299) {
+                    return response.json();
+                  } else {
+                    throw Error(response.statusText);
+                  }
+                })
+                .then()
+                .catch((error) => {});
+            }
+          </script>
+          {% endif %}
+        </div>
+        <!--recipecard-->
 
-      {% endfor %}
+        {% endfor %}
+      </div>
+      {% include 'filter.html' %}
     </div>
   </body>
 </html>

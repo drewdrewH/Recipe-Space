@@ -174,6 +174,31 @@ def bookmark(req):
 
   return json_object
 
+def filter_ingredient(req):
+  session = req.session
+  search_val = str(req.POST.get('filter-search-val'))
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  query = "SELECT * FROM Recipes WHERE ingredients LIKE '%" + search_val + "%';"
+  cursor.execute(query)
+  records = cursor.fetchall()
+  db.close()
+  return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
+
+def search_autocomplete(req):
+  search_val = req.matchdict.get('ingredient')
+  if(search_val == ""):
+    return {'ingredients': 'no search'}
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  query = "SELECT ingredient FROM Ingredients WHERE ingredient LIKE '" + search_val + "%' LIMIT 10;"
+  cursor.execute(query)
+  records = cursor.fetchall()
+  db.close()
+  if(records == []):
+    return {'ingredients':'no records'}
+  return {'ingredients':records}
+
 ''' Route Configurations '''
 if __name__ == '__main__':
   config = Configurator()
@@ -207,6 +232,12 @@ if __name__ == '__main__':
 
   config.add_route('bookmark', '/bookmark')
   config.add_view(bookmark , route_name='bookmark', request_method='POST', renderer='json')
+
+  config.add_route('filter_ingredient', '/filter_ingredient')
+  config.add_view(filter_ingredient , route_name='filter_ingredient', request_method='POST')
+
+  config.add_route('search_autocomplete', '/search_autocomplete/{ingredient}')
+  config.add_view(search_autocomplete , route_name='search_autocomplete', renderer='json')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 
