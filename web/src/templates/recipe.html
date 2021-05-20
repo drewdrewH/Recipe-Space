@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -12,24 +12,18 @@
     <title>Recipe Space</title>
     <meta name="author" content="Andrew Hernandez, Gourab, Mark, Freddy" />
     <meta name="description" content="Recipe Heaven" />
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVQI12P4//8/AAX+Av7czFnnAAAAAElFTkSuQmCC">
-    
+   
     <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/card.css" />
-    
+    <link rel="stylesheet" type="text/css" href="css/cardpage.css" />
   </head>
 
   <body>
-  
     {% if session['login'] %} {% include 'user_nav.html' %} {% else %} {%
-    include 'navbar.html' %} {% endif %} {% include 'search.html' %}
-    <h1 class = "grid-titles">Popular Recipes</h1>
-    <hr class ="line-split"/>
-    <div class="grid-container">
-      {% for recipe in popular %}
-      
-      <div class="recipecard"  >
-        
+    include 'navbar.html' %} {% endif %} {% include 'search.html' %} {% for
+    recipe in recipes %}
+
+    <div class="cardPage" id ='cardPage'>
+      <div id ="img-col" class="img-col">
         <img class="recipeimg" src="{{recipe[8]}}" />
         <img
           onClick="bookData(this.id);"
@@ -37,9 +31,11 @@
           class="bookmark"
           src="{{recipe[12]}}"
         />
-        <a style="text-decoration:none" href="/{{recipe[0]}}">
+      </div>
+      <div class="ing-col" id ="ing-col">
         <div class="recipecontent">
           <h3 class="recipetitle">{{recipe[1]}}</h3>
+          <hr color='white'>
           <div class="recipestatblock">
             <div class="recipestatlabel">
               <p>Taste: {{recipe[9]}}</p>
@@ -57,19 +53,23 @@
           </div>
           <!--recipestatblock-->
           <div class="recipebottomcontent">
-            
             <ul class="recipekeyingredients">
-              {% for ing in ingredients[recipe[1]] %}
-                <li class="ingredient"> {{ing}}</li>
+              {% for ing in basic[recipe[1]] %}
+              <li class="ingredient">{{ing}}</li>
               {% endfor %}
-                 
-            </ul> 
+            </ul>
             <!--recipekeyingredients-->
-    
+
             <div class="recipetimeblock">
               <p>Cook Time:</p>
               <p class="recipedurationtime">{{recipe[2]}} m</p>
             </div>
+            
+            <ol class="recipeInstructions">
+                {% for ins in instructions %}
+                <li class="instruction">{{ins}}</li>
+                {% endfor %}
+              </ol>
           </div>
           <!--recipebottomcontent-->
         </div>
@@ -79,10 +79,10 @@
           // var id = '{{recipe[1]}}';
           // var bm = document.getElementById(id);
           //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}}
-    
+
           function bookData(id) {
-            var book = document.getElementById(String(id))
-            book.src = 'css/img/bookmarked.svg'
+            var book = document.getElementById(String(id));
+            book.src = "css/img/bookmarked.svg";
             console.log(id);
             var data = { recipe: String(id), email: '{{session["email"]}}' };
             fetch("http://localhost/bookmark", {
@@ -102,23 +102,21 @@
           }
         </script>
         {% endif %}
-       </a> 
       </div>
-      <!--recipecard-->
-
-      {% endfor %}
     </div>
-    <h1 class = "grid-titles">All Recipes</h1>
-    <hr class ="line-split"/>
-    <div class="grid-container">
+    <!--recipecard-->
 
-      {% for recipe in recipes %}
-      
-      {% include 'recipeCard.html' %}
-      <!--recipecard-->
-    
-      {% endfor %}
-    </div>
+    {% endfor %}
+    <script>
+        /*var img = document.getElementById('img-col')
+        var ing = document.getElementById('ing-col')
+        var cp = document.getElementById('cardPage')
+
+        maxheight = Math.max(img.style.height, ing.style.height)
+        img.style.cssText += maxheight
+        cp.style.cssText += maxheight */
+
+
+    </script>
   </body>
-  
 </html>

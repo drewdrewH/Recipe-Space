@@ -14,6 +14,7 @@ with open('RecipeDatabase.csv', newline='') as csvfile:
     data = list(csv.reader(csvfile))
 data = data[1:]
 for row in data:
+  row.append("https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png")
   row[2] = str(row[2])
   row[9] = int(row[9])
   row[10] = int(row[10])
@@ -68,9 +69,11 @@ try:
       nutrition   VARCHAR(2000),
       related     VARCHAR(500),
       image        VARCHAR(1000) NOT NULL,
-        taste       INT NOT NULL,
+      
+      taste       INT NOT NULL,
       ease        INT NOT NULL,
       cleanup     INT NOT NULL,
+      bookmark    VARCHAR(500) NOT NULL,
       created_at  datetime default(current_timestamp)
     );
   """)
@@ -94,6 +97,7 @@ try:
         taste       INT NOT NULL,
       ease        INT NOT NULL,
       cleanup     INT NOT NULL,
+      bookmark VARCHAR(500) NOT NULL,
       created_at  datetime default(current_timestamp)
     );
   """)
@@ -120,7 +124,7 @@ values = [
 
 cursor.executemany(query, values)
 query = """insert into Recipes (name, time, serving, ingredients, instructions,
-            nutrition, related, image, taste, ease, cleanup) values (%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s);"""
+            nutrition, related, image, taste, ease, cleanup, bookmark) values (%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s, %s);"""
 cursor.executemany(query, data)
 
 query = """insert into Ingredients (ingredient) values (%s);"""

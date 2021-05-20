@@ -1,0 +1,76 @@
+<div class="recipecard"  >
+        
+    <img class="recipeimg" src="{{recipe[8]}}" />
+    <img
+      onClick="bookData(this.id);"
+      id="{{recipe[1]}}"
+      class="bookmark"
+      src="{{recipe[12]}}"
+    />
+    <a style="text-decoration:none" href="/{{recipe[0]}}">
+    <div class="recipecontent">
+      <h3 class="recipetitle">{{recipe[1]}}</h3>
+      <div class="recipestatblock">
+        <div class="recipestatlabel">
+          <p>Taste: {{recipe[9]}}</p>
+          <p>Ease: {{recipe[10]}}</p>
+          <p>Cleanup: {{recipe[11]}}</p>
+        </div>
+        <div class="recipestatlabel">
+          <p>⭐⭐⭐</p>
+          <!--taste-->
+          <p>⭐⭐</p>
+          <!--ease-->
+          <p>⭐</p>
+          <!--cleanup-->
+        </div>
+      </div>
+      <!--recipestatblock-->
+      <div class="recipebottomcontent">
+        
+        <ul class="recipekeyingredients">
+          {% for ing in basic[recipe[1]] %}
+            <li class="ingredient"> {{ing}}</li>
+          {% endfor %}
+             
+        </ul> 
+        <!--recipekeyingredients-->
+
+        <div class="recipetimeblock">
+          <p>Cook Time:</p>
+          <p class="recipedurationtime">{{recipe[2]}} m</p>
+        </div>
+      </div>
+      <!--recipebottomcontent-->
+    </div>
+    <!--recipecontent-->
+    {% if session['login'] %}
+    <script>
+      // var id = '{{recipe[1]}}';
+      // var bm = document.getElementById(id);
+      //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}}
+
+      function bookData(id) {
+        var book = document.getElementById(String(id))
+        book.src = 'css/img/bookmarked.svg'
+        console.log(id);
+        var data = { recipe: String(id), email: '{{session["email"]}}' };
+        fetch("http://localhost/bookmark", {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        })
+          .then(function (response) {
+            if (response.status >= 200 && response.status <= 299) {
+              return response.json();
+            } else {
+              throw Error(response.statusText);
+            }
+          })
+          .then()
+          .catch((error) => {});
+      }
+    </script>
+    {% endif %}
+   </a> 
+  </div>

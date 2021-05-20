@@ -48,10 +48,15 @@ def profile(req):
   email = session['email']
   cursor.execute("SELECT * FROM Bookmarks WHERE email = %s ;",(email,))
   records = cursor.fetchall()
+  basic = {}
+  for i in records:
+    top_5 = i[5].split(';')
+    basic.update({str(i[2]):top_5[:5]})
+  
   
   db.close()
   
-  return render_to_response('templates/profile.html',{'session':session, 'recipes':records },request = req )
+  return render_to_response('templates/profile.html',{'session':session, 'recipes':records, 'basic':basic},request = req )
 
 def sign_up(req):
   msg = ''
@@ -107,8 +112,7 @@ def login(req):
     session['login'] = True
     session['id'] = account[0]
     session['email'] = account[2]
-    cursor.execute("SELECT * FROM Recipes;")
-    records = cursor.fetchall()
+    
     db.close()
             # Redirect to home page
     return get_home(req)
@@ -147,10 +151,16 @@ def browse(req):
   
   cursor.execute("SELECT * FROM Recipes;")
   records = cursor.fetchall()
+
+  basic = {}
+  for i in records:
+    top_5 = i[4].split(';')
+    basic.update({str(i[1]):top_5[:5]})
+  
   db.close()
 
 
-  return render_to_response('templates/browse.html', {'session':session, 'recipes':records}, request=req)
+  return render_to_response('templates/browse.html', {'session':session, 'recipes':records, 'basic':basic}, request=req)
 
 def bookmark(req):
   session = req.session
@@ -159,13 +169,16 @@ def bookmark(req):
   print(recipe)
   db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
   cursor = db.cursor()
+  cursor.execute("UPDATE Recipes SET bookmark = %s  WHERE name = %s ;", ('css/img/bookmarked.svg',recipe))
+  db.commit()
   cursor.execute('SELECT DISTINCT * FROM Recipes WHERE name = %s ;', (recipe,))
   record = list(cursor.fetchone())
   record = record[1:len(record)-1]
   record.insert(0, email)
   
+  
   query = """insert into Bookmarks (email, name, time, serving, ingredients, instructions,
-            nutrition, related, image, taste, ease, cleanup) values (%s,%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s);"""
+            nutrition, related, image, taste, ease, cleanup, bookmark) values (%s,%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s, %s);"""
   cursor.execute(query, record)
   db.commit()
   db.close()
@@ -198,6 +211,29 @@ def search_autocomplete(req):
   if(records == []):
     return {'ingredients':'no records'}
   return {'ingredients':records}
+
+def recipe(req):
+  session = req.session
+  recipeId = req.matchdict.get('recipe', None)
+  if recipeId == 'favicon.ico':
+    return
+  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
+  cursor = db.cursor()
+  query = "SELECT * FROM Recipes WHERE id = " + recipeId +  " ;"
+  cursor.execute(query)
+  records = cursor.fetchall()
+  db.close()
+
+  basic = {}
+  for i in records:
+    top_5 = i[4].split(';')
+    basic.update({str(i[1]):top_5})
+  db.close()
+
+  ins = records[0][5].split('.')
+
+  return render_to_response('templates/recipe.html', {"session": session, 'recipes':records, 'basic':basic, 'instructions':ins }, request = req)
+
 
 ''' Route Configurations '''
 if __name__ == '__main__':
@@ -238,6 +274,9 @@ if __name__ == '__main__':
 
   config.add_route('search_autocomplete', '/search_autocomplete/{ingredient}')
   config.add_view(search_autocomplete , route_name='search_autocomplete', renderer='json')
+
+  config.add_route('recipe', '/{recipe}')
+  config.add_view(recipe , route_name='recipe' )
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 
