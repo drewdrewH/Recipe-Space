@@ -46,12 +46,6 @@ def get_home(req):
   # and rendering the home.html page.
 
   session = req.session
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
-
-  # Gathers the four most bookmarked recipes to put at the top bar
-  # cursor.execute("SELECT DISTINCT * FROM Recipes r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name ORDER BY count(*) DESC LIMIT 4) p on r.name = p.name;")
-  # popular = cursor.fetchall()
 
   popular = access_database("SELECT DISTINCT * FROM Recipes \
     r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name \
@@ -66,9 +60,6 @@ def get_home(req):
     ingredients.update({str(i[1]):top_5[:5]}) # i[1] == recipe name
   
   records = access_database("SELECT * FROM Recipes;",values=None,fetch='all') # we gather all the recipes so that we can display them on the page
-  # cursor.execute("SELECT * FROM Recipes;")
-  # records = cursor.fetchall()
-
   basic = {} # Basic will hold the top 5 ingredients of every recipe, not just the popular ones.
   for i in records:
     top_5 = i[4].split(';')
@@ -76,8 +67,7 @@ def get_home(req):
                                         # TODO: could we somehow combine this with the ingredients variable? That
                                         # would make more sense to me
 
-  # db.close()
-  # Return all the information.
+ 
   return render_to_response('templates/home.html',\
     {'session':session, 'recipes':records, 'popular':popular, 'ingredients':ingredients, 'basic':basic},\
     request = req )
@@ -91,8 +81,7 @@ def profile(req):
   email = session['email'] # Do we need to check for an invalid email field? We don't even check if session['login'] is True
   records = access_database("SELECT * FROM Bookmarks WHERE email = %s ;",\
                             values=(email,),fetch='all') # gather all the bookmarks associated with that user
-  # cursor.execute("SELECT * FROM Bookmarks WHERE email = %s ;",(email,))
-  # records = cursor.fetchall()
+
   basic = {}
   for i in records:
     top_5 = i[5].split(';')
@@ -104,8 +93,7 @@ def sign_up(req):
   msg = ''
     # Check if "name", "password" and "email" POST reqs exist (user submitted POST)
   session = req.session
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
+
   name = str(req.POST.get('name-signUp')) # there is a form with inputs that are named 'name-signUp', etc. which
   password = str(req.POST.get('password-SignUp')) # allows us to grab the form input data with req.POST.get('name')
   email = str(req.POST.get('email-Signup')) # (it's located in navbar.html)
@@ -114,8 +102,7 @@ def sign_up(req):
   
   print(name , password, email)
   account = access_database('SELECT * FROM Users WHERE email = %s ;', values=(email,),fetch='one')
-  # cursor.execute('SELECT * FROM Users WHERE email = %s ;', (email,))
-  # account = cursor.fetchone()
+  
         # If account exists show error and validation checks
   if account:
     msg = 'Account already exists!'
@@ -132,8 +119,7 @@ def sign_up(req):
   else:
             # Account doesnt exists and the POST data is valid, now insert new account into accounts table
     access_database('INSERT INTO Users (full_name, email, password) VALUES ( %s, %s, %s);',values=(name,email, password),fetch=None)
-    # cursor.execute('INSERT INTO Users (full_name, email, password) VALUES ( %s, %s, %s);', (name,email, password))
-    # db.commit()
+  
     # update the session with the current information
     session['login'] = True 
     session['email'] = email
@@ -152,10 +138,7 @@ def login(req):
   email = str(req.POST.get('email')) # grab the form data
   password = str(req.POST.get('password'))
   print(email, password)
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
-  # cursor.execute('SELECT * FROM Users WHERE email = %s and password = %s;', (email,password))
-  # account = cursor.fetchone()
+
   account = access_database('SELECT * FROM Users WHERE email = %s and password = %s;',values=(email,password),fetch='one')
 
   print(account)
@@ -166,9 +149,7 @@ def login(req):
     session['id'] = account[0] # We keep the user id in the session but we never use it
     session['email'] = account[2]
     records = access_database("SELECT * FROM Recipes;",values=None,fetch='all') # is this records being used?
-    # cursor.execute("SELECT * FROM Recipes;")
-    # records = cursor.fetchall()
-    # db.close()
+
             # Redirect to home page
     return get_home(req)
   else:
@@ -187,15 +168,12 @@ def search(req):
   # This is used when we are searching for recipes, not recipe ingredients
   session = req.session
   search_val = str(req.POST.get('search-val'))
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
+
   query = "SELECT * FROM Recipes WHERE name LIKE '%"+ search_val + "%';"
   # We only do a substring match
   records = access_database(query,values=None,fetch='all')
 
-  # cursor.execute(query)
-  # records = cursor.fetchall()
-  # db.close()
+
   return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
 
 
@@ -203,18 +181,12 @@ def browse(req):
   # This method is responsible for rendering the browse page with all the recipes
   session = req.session
   
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
-  
   records = access_database("SELECT * FROM Recipes;",values=None,fetch='all')
   basic = {}
   for i in records:
     top_5 = i[4].split(';')
     basic.update({str(i[1]):top_5[:5]})
   
-  # cursor.execute("SELECT * FROM Recipes;")
-  # records = cursor.fetchall()
-  # db.close()
   return render_to_response('templates/browse.html', {'session':session, 'recipes':records, 'basic':basic}, request=req)
 
 def bookmark(req):
@@ -222,30 +194,24 @@ def bookmark(req):
   session = req.session
   recipe = req.json_body.get('recipe') # since this session gets referred by javascript, we get the information from the json body
   email = req.json_body.get('email')
+  src = req.json_body.get('book_src')
   print(recipe)
-  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  cursor = db.cursor()
-  cursor.execute("UPDATE Recipes SET bookmark = %s  WHERE name = %s ;", ('css/img/bookmarked.svg',recipe))
-  db.commit()
-  cursor.execute('SELECT DISTINCT * FROM Recipes WHERE name = %s ;', (recipe,))
-  record = list(cursor.fetchone())
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
-  # cursor.execute('SELECT DISTINCT * FROM Recipes WHERE name = %s ;', (recipe,))
-  # record = list(cursor.fetchone())
+ 
+  access_database("UPDATE Recipes SET bookmark = %s  WHERE name = %s ;", values=(src,recipe), fetch=None)
 
+  if src ==  "https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png":
+    access_database("DELETE FROM Bookmarks WHERE name = %s and email = %s;", values = (recipe, email), fetch=None)
+  else:
   # first we must get the recipe record so that we can create/remove the bookmark record
-  record = list(access_database('SELECT DISTINCT * FROM Recipes WHERE name = %s ;',values=(recipe,),fetch='one'))
-  record = record[1:len(record)-1]
-  record.insert(0, email) # we attach the email to it to conform to the bookmark record
+    record = list(access_database('SELECT DISTINCT * FROM Recipes WHERE name = %s ;',values=(recipe,),fetch='one'))
+    record = record[1:len(record)-1]
+    record.insert(0, email) # we attach the email to it to conform to the bookmark record
   
-  # TODO: create logic to remove a bookmark if it is already present
-  query = """insert into Bookmarks (email, name, time, serving, ingredients, instructions,
-            nutrition, related, image, taste, ease, cleanup) values (%s,%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s);"""
-  # cursor.execute(query, record)
-  # db.commit()
-  # db.close()
-  access_database(query,values=tuple(record),fetch=None)
+    # TODO: create logic to remove a bookmark if it is already present
+    query = """insert into Bookmarks (email, name, time, serving, ingredients, instructions,
+            nutrition, related, image, taste, ease, cleanup, bookmark) values (%s,%s, %s,  %s,%s, %s,  %s,%s, %s,  %s,%s, %s, %s);"""
+
+    access_database(query,values=tuple(record),fetch=None)
   
   json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
 
@@ -256,12 +222,9 @@ def filter_ingredient(req):
   # So that we search "Ground Beef" and get all the dishes that have ground beef in them
   session = req.session
   search_val = str(req.POST.get('filter-search-val'))
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
+
   query = "SELECT * FROM Recipes WHERE ingredients LIKE '%" + search_val + "%';"
-  # cursor.execute(query)
-  # records = cursor.fetchall()
-  # db.close()
+
   records = access_database(query,values=None,fetch='all')
 
   return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
@@ -273,12 +236,9 @@ def search_autocomplete(req):
   search_val = req.matchdict.get('ingredient')
   if(search_val == ""):
     return {'ingredients': 'no search'}
-  # db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  # cursor = db.cursor()
+
   query = "SELECT ingredient FROM Ingredients WHERE ingredient LIKE '" + search_val + "%' LIMIT 10;"
-  # cursor.execute(query)
-  # records = cursor.fetchall()
-  # db.close()
+
   records = access_database(query,values=None,fetch='all')
   if(records == []):
     return {'ingredients':'no records'}
@@ -287,21 +247,16 @@ def search_autocomplete(req):
 def recipe(req):
   session = req.session
   recipeId = req.matchdict.get('recipe', None)
-  if recipeId == 'favicon.ico':
-    return
-  db = mysql.connect(host=db_host, database=db_name, user=db_user, passwd=db_pass)
-  cursor = db.cursor()
+ 
   query = "SELECT * FROM Recipes WHERE id = " + recipeId +  " ;"
-  cursor.execute(query)
-  records = cursor.fetchall()
-  db.close()
+  
+  records = access_database(query, values=None, fetch='all')
 
   basic = {}
   for i in records:
     top_5 = i[4].split(';')
     basic.update({str(i[1]):top_5})
-  db.close()
-
+  
   ins = records[0][5].split('.')
 
   return render_to_response('templates/recipe.html', {"session": session, 'recipes':records, 'basic':basic, 'instructions':ins }, request = req)
