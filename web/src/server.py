@@ -169,12 +169,17 @@ def search(req):
   session = req.session
   search_val = str(req.POST.get('search-val'))
 
-  query = "SELECT * FROM Recipes WHERE name LIKE '%"+ search_val + "%';"
+  query = "SELECT * FROM Recipes WHERE name LIKE '% "+ search_val + "%' OR ingredients LIKE '% "+ search_val + "%';"
   # We only do a substring match
   records = access_database(query,values=None,fetch='all')
+  basic = {}
+  for i in records:
+    top_5 = i[4].split(';')
+    basic.update({str(i[1]):top_5[:5]})
+  
 
 
-  return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
+  return render_to_response('templates/browse.html', {"session": session, 'recipes':records, 'basic':basic}, request = req)
 
 
 def browse(req):

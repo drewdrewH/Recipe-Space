@@ -140,7 +140,7 @@
   
   .modal-form {
     height: 400px;
-    overflow: hidden;
+    overflow:-moz-hidden-unscrollable;
   }
   
   form.sign {

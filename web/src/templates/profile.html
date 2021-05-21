@@ -24,8 +24,8 @@
       {% for recipe in recipes %}
 
       <div class="recipecard">
-        <img class="recipeimg" src = {{recipe[9]}}>
-        <img class="bookmark" src="{{recipe[13]}}">
+        <img  class="recipeimg" src = {{recipe[9]}}>
+        <img id="{{recipe[2]}}" onClick="bookData(this.id);" class="bookmark" src="{{recipe[13]}}">
         <div class="recipecontent">
             <h3 class="recipetitle"> {{recipe[2]}} </h3>
             <div class="recipestatblock">
@@ -41,14 +41,12 @@
                 </div>
             </div> <!--recipestatblock-->
             <div class="recipebottomcontent">
-                <p> {{recipe[5]}}</p>
-               <!-- <ul class="recipekeyingredients">
-                    <li class="gluten"> Flour </li>
-                    <li class="dairy"> Cheese </li>
-                    <li> Water </li>
-                    <li class="dairy"> Half and Half </li>
-                    <li> Paprika </li>
-                </ul> --> <!--recipekeyingredients--> 
+                <ul class="recipekeyingredients">
+                    {% for ing in basic[recipe[2]] %}
+                      <li class="ingredient"> {{ing}}</li>
+                    {% endfor %}
+                       
+                  </ul> 
 
                 <div class="recipetimeblock">
                     <p> Cook Time: </p>
@@ -59,6 +57,7 @@
     
             </div> <!--recipebottomcontent-->
         </div> <!--recipecontent-->
+        <script src="css/bookmark.js"></script>
     </div> <!--recipecard-->
 
     {% endfor %}

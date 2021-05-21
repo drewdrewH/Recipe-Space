@@ -17,8 +17,9 @@
     grid-template-columns: auto auto auto auto ;
     grid-column-gap: 35px;
     grid-row-gap: 55px;
-    width:90%;
-    margin-left: 5%;
+    width:80%;
+    margin-left: 10%;
+    margin-bottom: 5%;
   }
   
   .recipecard:hover {
@@ -123,11 +124,13 @@
     justify-content: center;
     font-size: large;
     color: white;
+    margin-bottom: 2%;
   }
   
   .recipecard .recipetimeblock .recipedurationtime {
     font-weight: bold;
     margin-left:5%;
     color: white;
+    margin-bottom: 2%;
   }
   
