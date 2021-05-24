@@ -1,5 +1,19 @@
 var filterInput = document.getElementById('filter-search-val');
+var autocomplete = document.getElementById('search_autocomplete');
+var filteredIngredients = [];
 
+autocomplete.addEventListener("click", function(e) {
+    if(e.target){
+        var searchText = e.target.innerHTML;
+        if(searchText != "" && !filteredIngredients.includes(searchText)){
+            filteredIngredients.push(searchText);
+        }
+        location.href = "/filter_ingredient/"+filteredIngredients;
+    }
+    else {
+        console.log("nothing");
+    }
+});
 
 filterInput.addEventListener('input', (event) =>{
     var searchText = filterInput.value;
@@ -14,9 +28,15 @@ filterInput.addEventListener('input', (event) =>{
                     for (var i = 1; i < 10; i++) {
                         document.getElementById('autocomplete_entry'+String(i+1)).innerHTML = "";
                     }
+                    document.getElementById('searchbar').style.borderBottomRightRadius = '0px';
+                    document.getElementById('searchbar').style.borderBottomLeftRadius = '0px';
+                    document.querySelector('.search_autocomplete').style.borderBottom = '1px solid hsl(120, 100%, 35%)';
                 }
                 else if(ingredient == 'no search') {
                     console.log("no search");
+                    document.getElementById('searchbar').style.borderBottomRightRadius = '20px';
+                    document.getElementById('searchbar').style.borderBottomLeftRadius = '20px';
+                    document.querySelector('.search_autocomplete').style.borderBottom = 'none';
                 }
                 else {
                     for (var i = 0; i < 10; i++) {
@@ -26,6 +46,9 @@ filterInput.addEventListener('input', (event) =>{
                         else {
                             document.getElementById('autocomplete_entry'+String(i+1)).innerHTML = ingredient[i];
                         }
+                        document.getElementById('searchbar').style.borderBottomRightRadius = '0px';
+                        document.getElementById('searchbar').style.borderBottomLeftRadius = '0px';
+                        document.querySelector('.search_autocomplete').style.borderBottom = '1px solid hsl(120, 100%, 35%)';
                     }
                 }
             })
@@ -33,6 +56,9 @@ filterInput.addEventListener('input', (event) =>{
     else {
         for (var i = 0; i < 10; i++) {
             document.getElementById('autocomplete_entry'+String(i+1)).innerHTML = "";
+            document.getElementById('searchbar').style.borderBottomRightRadius = '20px';
+            document.getElementById('searchbar').style.borderBottomLeftRadius = '20px';
+            document.querySelector('.search_autocomplete').style.borderBottom = 'none';
         }
     }
 })

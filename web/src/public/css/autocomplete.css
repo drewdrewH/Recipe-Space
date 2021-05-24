@@ -1,7 +1,15 @@
 .search_autocomplete {
-    display: block;
+    display: flex;
+    flex-direction: column;
     background-color: white;
-    box-shadow: 0 3px 12px #999;
+    position: absolute;
+    z-index: 9;
+    justify-content: center;
+    margin-top: 30px;
+    width: 232px;
+    border-left: 1px solid hsl(120, 100%, 35%);
+    border-right: 1px solid hsl(120, 100%, 35%);
+    list-style: none;
 }
 
 .autocomplete_entry {

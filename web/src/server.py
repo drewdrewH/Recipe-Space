@@ -226,13 +226,27 @@ def filter_ingredient(req):
   # This function is responsible for rendering the browse page filtering based on ingredient
   # So that we search "Ground Beef" and get all the dishes that have ground beef in them
   session = req.session
-  search_val = str(req.POST.get('filter-search-val'))
-
-  query = "SELECT * FROM Recipes WHERE ingredients LIKE '%" + search_val + "%';"
+  records = access_database("SELECT * FROM Recipes;",values=None,fetch='all')
+  basic = {}
+  for i in records:
+    top_5 = i[4].split(';')
+    basic.update({str(i[1]):top_5[:5]})
+  #search_val = str(req.POST.get('filter-search-val'))
+  search_val = req.matchdict.get('ingredients')
+  search_val = search_val.split(',')
+  query = "SELECT * FROM Recipes WHERE"
+  counter = 0
+  for sv in search_val:
+    counter = counter + 1
+    query = query + " ingredients LIKE '%" + sv.strip('\'') + "%'"
+    if(counter < len(search_val)):
+      query = query + " AND"
+  query = query + ";"
+  #query = "SELECT * FROM Recipes WHERE ingredients LIKE '%" + search_val + "%';"
 
   records = access_database(query,values=None,fetch='all')
-
-  return render_to_response('templates/browse.html', {"session": session, 'recipes':records}, request = req)
+  print(records)
+  return render_to_response('templates/browse.html', {"session": session, 'recipes':records, 'basic':basic}, request = req)
 
 def search_autocomplete(req):
   # This method is responsible for gathering the ingredients that match
@@ -301,8 +315,8 @@ if __name__ == '__main__':
   config.add_route('bookmark', '/bookmark')
   config.add_view(bookmark , route_name='bookmark', request_method='POST', renderer='json')
 
-  config.add_route('filter_ingredient', '/filter_ingredient')
-  config.add_view(filter_ingredient , route_name='filter_ingredient', request_method='POST')
+  config.add_route('filter_ingredient', '/filter_ingredient/{ingredients}')
+  config.add_view(filter_ingredient , route_name='filter_ingredient')
 
   config.add_route('search_autocomplete', '/search_autocomplete/{ingredient}')
   config.add_view(search_autocomplete , route_name='search_autocomplete', renderer='json')

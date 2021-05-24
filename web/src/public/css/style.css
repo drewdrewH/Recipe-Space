@@ -123,7 +123,6 @@ font-size: xx-large;
     justify-content: center;
     padding-top: 24px;
     height: 34px;
-    align-items: center;
 }
 
 .searchsubmit {
@@ -148,14 +147,14 @@ font-size: xx-large;
 }
 
 .filterclass {
-    max-width: 25%;
+    max-width: 250px;
     min-width: 250px;
     text-align: center;
 }
 
 .filterclass .search {
     padding-top: 0px;
-    padding-bottom: 10px;
+    z-index: 9;
 }
 
 .filterclass h2 {
@@ -223,4 +222,31 @@ font-size: xx-large;
       display: grid;
       width:100%;
       grid-template-columns:85% 15%;
+  }
+
+  .ingredient_tags {
+    list-style: none;
+    margin:0;
+    padding:0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    color: white;
+    height: 200px;
+  }
+  
+  .ingredient_tag {
+    background:hsl(0, 0%, 80%);
+    border-radius: 14px;
+    font-weight: bolder;
+    margin: 1% 1%;
+    padding: 2.5%;
+    color:#c41560;
+    height:fit-content;
+  }
+
+  .ingredient_tag:hover {
+      background:hsl(0, 0%, 90%);
   }
