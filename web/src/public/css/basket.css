@@ -1,0 +1,252 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.basketCard {
+    text-align: left;
+    border-radius: 14px;
+    border:2px solid #c41541;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+    background-color: #c41560;
+    transition: box-shadow 0.4s;
+    position: relative;
+    max-height: 400px;
+    margin: 20px 0px;
+}
+
+.basketCard:hover{
+    box-shadow: 7px 7px 15px rgba(0,0,0,0.41);
+}
+
+.basketCardContent {
+    display: flex;
+    flex-direction: row;
+}
+
+.basketCard .basketCardRecipeImage {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-right: 2px solid #c41541;
+    height: inherit;
+    width: 33%;
+    height: 33%;
+}
+
+.basketCard .basketCardRightContent {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    width: 100%;
+}
+.basketCard .basketCardRightContent .basketCardText {
+    margin-bottom: 0.5rem;
+}
+
+.basketCard .basketCardRightContent .basketCardText h2,
+.basketCard .basketCardRightContent .basketCardText p {
+    margin:0;
+    padding:0;
+    color:white;
+    user-select: none;
+}
+
+.clickableButton {
+    border-radius: 14px;
+    background-color: #ec6424;
+    color:white;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.2s;
+}
+
+.basketCard .basketCardRightContent .clickableButton {
+    align-self: center;
+    padding: 2%;
+    margin-bottom: 1%;
+}
+
+.clickableButton:hover {
+    transform: scale(1.1);
+}
+
+.clickableButton:active {
+    transform: scale(1.3);
+}
+
+.basketCard .bookmark {
+    position: absolute;
+    width:10%;
+    min-width: 25px;
+    top:5px;
+    right:5px;
+    cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.1s;
+}
+
+.basketCard .bookmark:hover {
+    transform: scale(1.1);
+}
+  
+.basketCard .bookmark:active {
+    transform: scale(1.3);
+}
+
+.basketWindow {
+    display:flex;
+    flex-direction: row; /* if we want the sidebar on the left, change this to row-reverse */
+    justify-content: stretch;
+}
+
+.basketWindow .basketSidebar {
+    width:25%;
+    text-align: center;
+    overflow-y:auto;
+    height: 100%;
+}
+
+.basketWindow .mainBasketContent {
+    box-sizing: border-box;
+    width: 75%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.basketWindow .basketHeader {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top:1.6rem;
+    margin-bottom: 1.6rem;
+}
+
+.basketWindow .basketHeader div {
+    display:flex;
+    flex-direction: row;
+
+}
+
+.basketWindow .basketHeader div * {
+    margin:0;
+}
+
+.basketWindow .basketGrid {
+    display:grid;
+    grid-template-columns: 4fr 3fr 3fr;
+    gap: 0;
+}
+
+
+.basketWindow .basketGrid > * {
+    border-left: 3px solid black;
+    margin:0;
+}
+
+.basketWindow .basketGrid > div:nth-child(3n+1) {
+    border-left: none;
+}
+
+.basketWindow .basketGrid .gridHeader {
+    border-bottom: 3px solid black;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:0.25rem 0.5rem;
+}
+
+.basketWindow .basketGrid .gridHeader h2 {
+    margin:0;
+}
+
+.basketWindow .basketGrid .gridHeaderFlex {
+    display:flex;
+    flex-direction: row;
+}
+
+.basketWindow .basketGrid .itemEntry {
+    display: flex;
+    flex-direction: row;
+    padding:0.2rem;
+    align-items: center;
+}
+
+.basketWindow .basketGrid .itemEntry img {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.basketWindow .basketGrid .itemEntry p {
+
+    align-self: center;
+}
+
+.basketWindow .basketGrid .quantityEntry {
+    display: flex;
+    flex-direction: row;
+    padding:0.2rem;
+    align-items: center;
+}
+
+.basketWindow .basketGrid .categoryEntry {
+    padding:0.2rem;
+}
+
+.basketWindow .basketGrid .quantityEntry img {
+    width: 1rem;
+    height:1rem;
+    cursor: pointer;
+    
+}
+
+.helpIcon {
+    cursor:help;
+    height: 1.6rem;
+    align-self: center;
+}
+
+.printIcon {
+    cursor: pointer;
+    height: 1.6rem;
+    align-self: center;
+}
+
+.sortUpButton {
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid rgb(0, 0, 0);
+    transform: scale(1);
+    transition: transform 0.1s;
+}
+
+.sortUpButton:hover {
+    transform:scale(1.1);
+}
+
+.sortDownButton {
+    width: 0;
+    height: 0;
+    cursor: pointer;
+    border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid rgb(0, 0, 0);
+    transform: scale(1);
+    transition: transform 0.1s;
+}
+
+.sortDownButton:hover {
+    transform:scale(1.1);
+}
+
+.sortButtonContainer {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
