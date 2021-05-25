@@ -5,6 +5,8 @@ var filteredIngredients = [];
 autocomplete.addEventListener("click", function(e) {
     if(e.target){
         var searchText = e.target.innerHTML;
+        console.log(document.getElementById('hidden').innerHTML);
+        filteredIngredients.push(document.getElementById('hidden').innerHTML);
         if(searchText != "" && !filteredIngredients.includes(searchText)){
             filteredIngredients.push(searchText);
         }

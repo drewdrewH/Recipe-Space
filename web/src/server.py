@@ -191,8 +191,8 @@ def browse(req):
   for i in records:
     top_5 = i[4].split(';')
     basic.update({str(i[1]):top_5[:5]})
-  
-  return render_to_response('templates/browse.html', {'session':session, 'recipes':records, 'basic':basic}, request=req)
+  ingredients = ""
+  return render_to_response('templates/browse.html', {'session':session, 'recipes':records, 'basic':basic, 'ingredients':ingredients}, request=req)
 
 def bookmark(req):
   # This function is responsible for updating the bookmarks database
@@ -234,6 +234,7 @@ def filter_ingredient(req):
   #search_val = str(req.POST.get('filter-search-val'))
   search_val = req.matchdict.get('ingredients')
   search_val = search_val.split(',')
+  ingredients = search_val
   query = "SELECT * FROM Recipes WHERE"
   counter = 0
   for sv in search_val:
@@ -246,7 +247,7 @@ def filter_ingredient(req):
 
   records = access_database(query,values=None,fetch='all')
   print(records)
-  return render_to_response('templates/browse.html', {"session": session, 'recipes':records, 'basic':basic}, request = req)
+  return render_to_response('templates/browse.html', {"session": session, 'recipes':records, 'basic':basic, 'ingredients':ingredients}, request = req)
 
 def search_autocomplete(req):
   # This method is responsible for gathering the ingredients that match
