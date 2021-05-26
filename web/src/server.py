@@ -281,6 +281,54 @@ def recipe(req):
 
   return render_to_response('templates/recipe.html', {"session": session, 'recipes':records, 'basic':basic, 'instructions':ins }, request = req)
 
+def basket(req):
+  session = req.session # grab the current session
+  email = session['email'] # Do we need to check for an invalid email field? We don't even check if session['login'] is True
+  records = access_database("SELECT * FROM Bookmarks WHERE email = %s ;",\
+                            values=(email,),fetch='all') # gather all the bookmarks associated with that user
+
+  
+  ings = access_database("SELECT * FROM Basket WHERE email = %s ;",\
+                            values=(email,),fetch='all') # gather all the bookmarks associated with that user
+  print(ings)
+  return render_to_response('templates/basket.html',{'session':session, 'recipes':records, 'amount':len(records), 'ingredients':ings},request = req )
+
+def addBasket(req):
+  # This function is responsible for updating the bookmarks database
+  session = req.session
+  recipe = req.json_body.get('recipe') # since this session gets referred by javascript, we get the information from the json body
+  email = req.json_body.get('email')
+  
+  print(recipe)
+ 
+  
+  # first we must get the recipe record so that we can create/remove the bookmark record
+  record = list(access_database('SELECT DISTINCT * FROM Recipes WHERE name = %s ;',values=(recipe,),fetch='one'))
+  
+  ingredients = record[4].split(';')
+  
+  print(ingredients, email)
+  for ing in ingredients:
+    query = """insert into Basket (ingredient, category, quantity, email) values (%s,%s, %s,%s);"""
+
+    access_database(query,values=tuple((ing,'unknown', '8 oz', email)),fetch=None)
+  
+  json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
+
+  return json_object
+
+def removeBasket(req):
+  # This function is responsible for updating the bookmarks database
+  session = req.session
+  recipe = req.json_body.get('recipe') # since this session gets referred by javascript, we get the information from the json body
+  print(recipe)
+  # first we must get the recipe record so that we can create/remove the bookmark record
+  access_database('DELETE FROM Basket WHERE id = %s ;',values=(recipe,),fetch='one')
+  
+  json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
+
+  return json_object
+
 
 ''' Route Configurations '''
 if __name__ == '__main__':
@@ -322,8 +370,17 @@ if __name__ == '__main__':
   config.add_route('search_autocomplete', '/search_autocomplete/{ingredient}')
   config.add_view(search_autocomplete , route_name='search_autocomplete', renderer='json')
 
-  config.add_route('recipe', '/{recipe}')
+  config.add_route('recipe', '/recipes/{recipe}')
   config.add_view(recipe , route_name='recipe' )
+
+  config.add_route('basket', '/basket')
+  config.add_view(basket , route_name='basket' )
+
+  config.add_route('addBasket', '/addBasket')
+  config.add_view(addBasket , route_name='addBasket', request_method='POST', renderer='json')
+
+  config.add_route('removeBasket', '/removeBasket')
+  config.add_view(removeBasket , route_name='removeBasket', request_method='POST', renderer='json')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

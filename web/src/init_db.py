@@ -39,6 +39,7 @@ try:
   cursor.execute("DROP TABLE IF EXISTS Recipes;")
   cursor.execute("DROP TABLE IF EXISTS Bookmarks;")
   cursor.execute("DROP TABLE IF EXISTS Ingredients;")
+  cursor.execute("DROP TABLE IF EXISTS Basket;")
   db.commit()
 except (mysql.Error, mysql.Warning) as e:
   print(e, 'ERROR')
@@ -113,6 +114,19 @@ try:
   """)
 except:
   print("Ingredient table already exists. Not recreating it.")
+
+try:
+  cursor.execute("""
+    CREATE TABLE IF NOT EXISTS Basket (
+      id          integer  AUTO_INCREMENT PRIMARY KEY,
+      ingredient  VARCHAR(200) NOT NULL,
+      category VARCHAR(100)    NOT NULL,
+      quantity VARCHAR(50)    NOT NULL,
+      email VARCHAR(200) NOT NULL
+    );
+  """)
+except:
+  print("Basket table already exists. Not recreating it.")
   
 
 # Insert Records

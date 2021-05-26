@@ -4,6 +4,7 @@
       //['{{session["email"]}}','{{recipe[1]}}', {{recipe[2]}}, '{{recipe[3]}}', '{{recipe[4]}}', '{{recipe[5]}}', '{{recipe[6]}}', '{{recipe[7]}}', '{{recipe[8]}}', {{recipe[9]}}, {{recipe[10]}}, {{recipe[11]}}
 
       function bookData(id) {
+        
         var book = document.getElementById(String(id))
         if(book.src == 'http://localhost/css/img/bookmarked.svg' ){
           book.src = "https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"

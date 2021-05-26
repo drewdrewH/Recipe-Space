@@ -8,11 +8,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='/css/basket.css'>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
-   
+    <script src='/css/basket.js'></script>
 </head>
 <body>
-    {% if session['login'] %} {% include 'user_nav.html' %} {% else %} {%
-        include 'navbar.html' %} {% endif %} {% include 'search.html' %}
+    {% include 'user_nav.html' %}
     <div class="basketWindow"> <!-- Horizontal Flexbox -->
         <sidebar class="basketSidebar">
             <h1> Bookmarked Recipes </h1>
@@ -29,36 +28,12 @@
                             <h2> {{recipe[2]}} </h2> <!--Name of Recipe-->
                             <p> {{recipe[15]}} </p> <!--Number of ingredients in Recipe-->
                         </div> <!--basketCardText-->
-                        <a id='{{recipe[2]}}' onClick="addBasket(this.id)" class='clickableButton'> Add to Basket </a>
+                        <a id='{{recipe[2]}}' class='clickableButton'> Add to Basket </a>
                     </div> <!--basketCardRightContent-->
                 </div> <!--basketCardContent-->
                 <img class='bookmark' src='{{recipe[13]}}'> <!--bookmark icon-->
                 {% if session['login'] %}
-                    <script >
-                        function addBasket(id) {
-        
-                        var book = document.getElementById(String(id))
-                        
-                        console.log(id);
-                        var data = { recipe: String(id), email:'{{session["email"]}}'};
-                        fetch("http://localhost/addBasket", {
-                          method: "POST",
-                          body: JSON.stringify(data),
-                          headers: { "Content-type": "application/json; charset=UTF-8" },
-                        })
-                          .then(function (response) {
-                            if (response.status >= 200 && response.status <= 299) {
-                              window.location.reload();
-                              return response.json();
-                            } else {
-                              throw Error(response.statusText);
-                            }
-                          })
-                          .then()
-                          .catch((error) => {});
-                      }
-                    
-                    </script>
+                    <script src ='/css/bookmark.js'></script>
                 {% endif %}
             </div> <!--basket card--> 
             {% endfor %}
@@ -108,45 +83,39 @@
                         <div class="sortDownButton"></div>
                     </div>
                 </div> <!-- gridHeader -->
-            
-                {% for ingredient in ingredients %}
-                <div  class="itemEntry">
-                    <img id={{ingredient[0]}} onClick="removeBasket(this.id)" src="/css/img/remove_ingredient.svg.png">
-                    <p> {{ingredient[1]}} </p>
-                    <script>
-                        function removeBasket(id) {
-        
-                            var book = document.getElementById(String(id))
-                            
-                            console.log(id);
-                            var data = { recipe: String(id)};
-                            fetch("http://localhost/removeBasket", {
-                              method: "POST",
-                              body: JSON.stringify(data),
-                              headers: { "Content-type": "application/json; charset=UTF-8" },
-                            })
-                              .then(function (response) {
-                                if (response.status >= 200 && response.status <= 299) {
-                                  window.location.reload();
-                                  return response.json();
-                                } else {
-                                  throw Error(response.statusText);
-                                }
-                              })
-                              .then()
-                              .catch((error) => {});
-                          }
-                    </script>
+                <div class="itemEntry">
+                    <img src="/css/img/remove_ingredient.svg.png">
+                    <p> Cheddar Cheese </p>
                 </div>
                 <div class="categoryEntry">
-                    {{ingredient[2]}}
+                    Dairy
                 </div>
                 <div class="quantityEntry">
                     <img src="/css/img/edit_quantity.png">
-                    <p> {{ingredient[3]}} </p>
+                    <p> 8 oz </p>
                 </div>
-                {% endfor %}
-                
+                <div class="itemEntry">
+                    <img src="/css/img/remove_ingredient.svg.png">
+                    <p> Cheddar Cheese </p>
+                </div>
+                <div class="categoryEntry">
+                    Dairy
+                </div>
+                <div class="quantityEntry">
+                    <img src="/css/img/edit_quantity.png">
+                    <p> 8 oz </p>
+                </div>
+                <div class="itemEntry">
+                    <img src="/css/img/remove_ingredient.svg.png">
+                    <p> Cheddar Cheese </p>
+                </div>
+                <div class="categoryEntry">
+                    Dairy
+                </div>
+                <div class="quantityEntry">
+                    <img src="/css/img/edit_quantity.png">
+                    <p> 8 oz </p>
+                </div>
             </div>
 
         </div>

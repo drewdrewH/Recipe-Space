@@ -96,6 +96,8 @@ body {
 }
 
 .basketWindow {
+    width: 90%;
+    margin-left: 5%;
     display:flex;
     flex-direction: row; /* if we want the sidebar on the left, change this to row-reverse */
     justify-content: stretch;
