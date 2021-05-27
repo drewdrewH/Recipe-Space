@@ -234,7 +234,7 @@ def filter_ingredient(req):
   #search_val = str(req.POST.get('filter-search-val'))
   search_val = req.matchdict.get('ingredients')
   search_val = search_val.split(',')
-  ingredients = search_val
+  ingredients = list(filter(None,search_val))
   query = "SELECT * FROM Recipes WHERE"
   counter = 0
   for sv in search_val:

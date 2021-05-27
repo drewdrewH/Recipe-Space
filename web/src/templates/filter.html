@@ -2,20 +2,9 @@
     <div class="filteringredient">
         <h2>Filter Results</h2>
         {% include 'filter_search.html' %}
-        <div class="ingredient_tags">
-            <div class="ingredient_tag">testing</div>
-            <div class="ingredient_tag">testing2</div>
-            <div class="ingredient_tag">testing3</div>
-            <div class="ingredient_tag">testing4</div>
-            <div class="ingredient_tag">testing5</div>
-            <div class="ingredient_tag">testing6</div>
-            <div class="ingredient_tag">testing7</div>
-            <div class="ingredient_tag">testing8</div>
-            <div class="ingredient_tag">testing9</div>
-            <div class="ingredient_tag">testing10</div>
-            <div class="ingredient_tag">testing11</div>
+        <div class="ingredient_tags" id="ingredient_tags">
             {% for ingredient in ingredients %}
-                <div class="ingredient_tag">{{ingredient}}</div>
+                <li class="ingredient_tag">{{ingredient}}</li>
             {% endfor %}
         </div>
         <script src="/css/ingredient_tags.js"></script>
