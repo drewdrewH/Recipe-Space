@@ -45,6 +45,7 @@ autocomplete.addEventListener("click", function(e) {
 
 filterInput.addEventListener('input', (event) =>{
     var searchText = filterInput.value;
+    searchText = removeBadChars(searchText);
     if(searchText != ""){
         fetch('/search_autocomplete/'+searchText)
             .then(response => response.json())
@@ -90,3 +91,9 @@ filterInput.addEventListener('input', (event) =>{
         }
     }
 })
+
+function removeBadChars(ingredient){
+    const badChars = ['\\', '#', '/', '.', '\''];
+    badChars.forEach(char => ingredient = ingredient.replaceAll(char, ''));
+    return ingredient;
+}

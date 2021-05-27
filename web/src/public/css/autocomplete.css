@@ -10,8 +10,5 @@
     border-left: 1px solid hsl(120, 100%, 35%);
     border-right: 1px solid hsl(120, 100%, 35%);
     list-style: none;
-}
-
-.autocomplete_entry {
-    border-bottom: 1px grey solid;
+    font-family: Consolas;
 }
