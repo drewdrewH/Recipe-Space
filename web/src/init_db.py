@@ -121,10 +121,21 @@ try:
       id          integer  AUTO_INCREMENT PRIMARY KEY,
       ingredient  VARCHAR(200) NOT NULL,
       category VARCHAR(100)    NOT NULL,
-      quantity VARCHAR(50)    NOT NULL,
-      email VARCHAR(200) NOT NULL
+      quantity smallint        NOT NULL,
+      unit varchar(100)        NOT NULL,
+      cost float               NOT NULL,
+      email VARCHAR(200)       NOT NULL
     );
   """)
+
+  # example record:
+  # ingredient: "cheddar cheese"
+  # category: "dairy"
+  # quantity: 8
+  # unit: "oz"
+  # cost: 4.35
+  # email "user@gmail.com"
+
 except:
   print("Basket table already exists. Not recreating it.")
   

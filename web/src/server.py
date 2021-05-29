@@ -291,7 +291,10 @@ def basket(req):
   ings = access_database("SELECT * FROM Basket WHERE email = %s ;",\
                             values=(email,),fetch='all') # gather all the bookmarks associated with that user
   print(ings)
-  return render_to_response('templates/basket.html',{'session':session, 'recipes':records, 'amount':len(records), 'ingredients':ings},request = req )
+  total_cost = 0.0
+  for ingredient in ings:
+    total_cost += ingredient[5]
+  return render_to_response('templates/basket.html',{'session':session, 'recipes':records, 'amount':len(records), 'ingredients':ings, 'totalCost' : "{:.2f}".format(total_cost)},request = req )
 
 def addBasket(req):
   # This function is responsible for updating the bookmarks database
@@ -309,9 +312,9 @@ def addBasket(req):
   
   print(ingredients, email)
   for ing in ingredients:
-    query = """insert into Basket (ingredient, category, quantity, email) values (%s,%s, %s,%s);"""
+    query = """insert into Basket (ingredient, category, quantity,unit,cost, email) values (%s,%s,%s,%s,%s,%s);"""
 
-    access_database(query,values=tuple((ing,'unknown', '8 oz', email)),fetch=None)
+    access_database(query,values=tuple((ing,'unknown', '8','oz', '3.14', email)),fetch=None)
   
   json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
 
@@ -326,6 +329,16 @@ def removeBasket(req):
   access_database('DELETE FROM Basket WHERE id = %s ;',values=(recipe,),fetch='one')
   
   json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
+
+  return json_object
+
+def clearBasket(req):
+  # we get here when the user clicks the 'clear basket' button on the 'basket' page. (referred by js)
+  # this function is responsible for removing all the ingredients from the user's basket
+  email = req.json_body.get('email') # since this session gets referred by javascript, we get the information from the json body
+  # first we must get the recipe record so that we can create/remove the bookmark record
+  access_database('DELETE FROM Basket WHERE email = %s ;',values=(email,),fetch=None)
+  json_object = json.dumps({'message':'sucessfully cleared basket'}, indent = 4)  
 
   return json_object
 
@@ -381,6 +394,9 @@ if __name__ == '__main__':
 
   config.add_route('removeBasket', '/removeBasket')
   config.add_view(removeBasket , route_name='removeBasket', request_method='POST', renderer='json')
+
+  config.add_route('clearBasket', '/clearBasket')
+  config.add_view(clearBasket , route_name='clearBasket', request_method='POST', renderer='json')
 
   config.add_static_view(name='/', path='./public', cache_max_age=3600)
 

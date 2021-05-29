@@ -57,7 +57,6 @@
                           .then()
                           .catch((error) => {});
                       }
-                    
                     </script>
                 {% endif %}
             </div> <!--basket card--> 
@@ -70,6 +69,28 @@
                 <div>
                     <h2> My Basket </h2>
                     <img id="myBasketHelp" class="helpIcon" src="/css/img/help_icon.png">
+                    <a class="clickableButton" id="clearBasket" onClick="clearBasket()"> Clear Basket </a>
+                    {% if session['login'] %}
+                        <script>
+                        function clearBasket() {
+                            var data = {email: '{{session["email"]}}'};
+                            fetch("http://localhost/clearBasket", {
+                                  method: "POST",
+                                  body: JSON.stringify(data),
+                                  headers: { "Content-type": "application/json; charset=UTF-8" },
+                              })
+                            .then(function (response) {
+                              if (response.status >= 200 && response.status <= 299) {
+                                window.location.reload();
+                                return response.json();
+                              } else {
+                                throw Error(response.statusText);
+                              }
+                            })
+                            .then()
+                            .catch((error) => {});
+                        }</script>
+                    {% endif %}
                 </div>
                 <div>
                     <a class="clickableButton" id="instacart"> Instacart </a>
@@ -92,7 +113,7 @@
                         <h2> Category </h2>
                         <img src='/css/img/help_icon.png' class="helpIcon" id="categoryHelp">
                     </div>
-                    <div class="sotButtonContainer">
+                    <div class="sortButtonContainer">
                         <div class="sortUpButton"></div>
                         <div class="sortDownButton"></div>
                     </div>
@@ -102,6 +123,17 @@
                     <div class="gridHeaderFlex">
                         <h2> Quantity </h2>
                         <img src='/css/img/help_icon.png' class="helpIcon" id="categoryHelp">
+                    </div>
+                    <div class="sortButtonContainer">
+                        <div class="sortUpButton"></div>
+                        <div class="sortDownButton"></div>
+                    </div>
+                </div> <!-- gridHeader -->
+
+                <div class="gridHeader" id='quantityHeader'>
+                    <div class="gridHeaderFlex">
+                        <h2> Cost </h2>
+                        <img src='/css/img/help_icon.png' class="helpIcon" id="costHelp">
                     </div>
                     <div class="sortButtonContainer">
                         <div class="sortUpButton"></div>
@@ -143,11 +175,18 @@
                 </div>
                 <div class="quantityEntry">
                     <img src="/css/img/edit_quantity.png">
-                    <p> {{ingredient[3]}} </p>
+                    <p> {{ingredient[3]}} {{ingredient[4]}}</p> <!-- [quantity] [unit]-->
+                </div>
+                <div class="costEntry">
+                    ${{ingredient[5]}} <!-- Note this assumes that cost will always be in USD and will be positive -->
                 </div>
                 {% endfor %}
                 
             </div>
+
+            <section class='totalCost'>
+                Total Cost: ${{totalCost}}
+            </section>
 
         </div>
     </div>
