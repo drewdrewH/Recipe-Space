@@ -249,4 +249,5 @@ font-size: xx-large;
 
   .ingredient_tag:hover {
       background:hsl(0, 0%, 90%);
+      cursor: pointer;
   }
