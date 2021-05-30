@@ -306,15 +306,19 @@ def addBasket(req):
  
   
   # first we must get the recipe record so that we can create/remove the bookmark record
-  record = list(access_database('SELECT DISTINCT * FROM Recipes WHERE name = %s ;',values=(recipe,),fetch='one'))
+  record = list(access_database('SELECT * FROM ParsedIngredients WHERE recipe = %s ;',values=(recipe,),fetch='all'))
   
-  ingredients = record[4].split(';')
+  for i in record:
+    i = list(i)
+    i.append(email)
+    i = tuple(i)
   
-  print(ingredients, email)
-  for ing in ingredients:
+  
+  print( email)
+  for rec in record:
     query = """insert into Basket (ingredient, category, quantity,unit,cost, email) values (%s,%s,%s,%s,%s,%s);"""
 
-    access_database(query,values=tuple((ing,'unknown', '8','oz', '3.14', email)),fetch=None)
+    access_database(query,values=tuple((rec[2], rec[3],rec[4], rec[5], rec[6], email)),fetch=None)
   
   json_object = json.dumps({'message':'sucessfully bookmarked recipe'}, indent = 4)  
 

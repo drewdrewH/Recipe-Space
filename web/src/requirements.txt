@@ -3,4 +3,4 @@ pyramid-jinja2
 mysql-connector-python
 python-dotenv
 requests==2.25.1
-
+parse_ingredients

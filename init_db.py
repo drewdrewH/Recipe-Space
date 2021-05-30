@@ -22,6 +22,8 @@ for row in data:
   row[7] = str(row[7])
 
 
+
+
 # Connect to the database
 db = mysql.connect(user=db_user, password=db_pass, host=db_host, database=db_name)
 cursor = db.cursor()
