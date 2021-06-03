@@ -94,7 +94,7 @@
                         <script>
                         function clearBasket() {
                             var data = {email: '{{session["email"]}}'};
-                            fetch("http://localhost/clearBasket", {
+                            fetch("http://recipe-space.com/clearBasket", {
                                   method: "POST",
                                   body: JSON.stringify(data),
                                   headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -178,7 +178,7 @@
                             
                             console.log(id);
                             var data = { recipe: String(id)};
-                            fetch("http://localhost/removeBasket", {
+                            fetch("http://recipe-space.com/removeBasket", {
                               method: "POST",
                               body: JSON.stringify(data),
                               headers: { "Content-type": "application/json; charset=UTF-8" },

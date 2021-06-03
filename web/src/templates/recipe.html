@@ -82,7 +82,7 @@
 
           function bookData(id) {
             var book = document.getElementById(String(id))
-            if(book.src == 'http://localhost/css/img/bookmarked.svg' ){
+            if(book.src == 'http://recipe-space.com/css/img/bookmarked.svg' ){
               book.src = "https://img.icons8.com/cute-clipart/64/000000/bookmark-ribbon.png"
             }
             else{
@@ -90,7 +90,7 @@
             }
             console.log(id);
             var data = { recipe: String(id), email: '{{session["email"]}}', book_src:book.src };
-            fetch("http://localhost/bookmark", {
+            fetch("http://recipe-space.com/bookmark", {
               method: "POST",
               body: JSON.stringify(data),
               headers: { "Content-type": "application/json; charset=UTF-8" },
