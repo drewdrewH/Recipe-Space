@@ -245,6 +245,19 @@ font-size: xx-large;
     padding: 2.5%;
     color:#c41560;
     height:fit-content;
+    display: flex;
+    align-items: center;
+  }
+
+  .ingredient_tag p {
+      margin: 0px;
+      background-color: #a313511f;
+      border-radius: 30px;
+      font-weight: 50;
+      margin-left: 3px;
+      padding: 0px 5px 0px 5px;
+      font-size: 0.8rem;
+      color: #424242;
   }
 
   .ingredient_tag:hover {
