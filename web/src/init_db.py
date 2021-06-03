@@ -27,7 +27,8 @@ aisle = 'unknown'
 
 
 def findIng(ingr):
-  name = "none"
+  ing = parse_ingredient(ingr)
+  name = str(ing.name)
   price = 4.20
   aisle = 'unknown'
   for x in parsedIng:
@@ -44,7 +45,7 @@ def findIng(ingr):
               price = x['estimatedCost']['value']
             if 'aisle' in x.keys():
               aisle = x['aisle']
-            ing = parse_ingredient(ingr)
+            
             records.append((str(row[0]), str(name), aisle ,
                        (" "+str(ing.quantity)), str(ing.unit), float(price/100.0), ))
             return True
