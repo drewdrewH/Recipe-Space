@@ -221,7 +221,7 @@ font-size: xx-large;
   .filtergrid {
       display: grid;
       width:100%;
-      grid-template-columns:85% 15%;
+      grid-template-columns:75% 20%;
   }
 
   .ingredient_tags {
