@@ -1,0 +1,210 @@
+@import url('https://use.fontawesome.com/releases/v5.6.1/css/all.css');
+@import url('https://fonts.googleapis.com/css?family=Cairo:300,600,700,900');
+
+body {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 300;
+  letter-spacing: .025rem;
+  color: #494949;
+}
+
+header {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 3px 12px #999;
+}
+
+.line-split{
+    background-color: #c41560;
+    color: #c41560;
+    height: 2px;
+    width: 80%;
+    margin-left: 10%;
+   
+}
+
+h1 {
+  font-weight: 900;
+}
+
+h2, h3 {
+  font-weight: 700;
+}
+
+h4, h5, h6 {
+  font-weight: 600;
+}
+
+p {
+  color: #6c757d;
+}
+
+img {
+  max-width: 100%;
+  display: inline-flex;
+}
+
+.about-section {
+  width: 100%;
+  height: 100vh;
+}
+
+.left-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  color: #fff;
+  height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, .1), rgba(0, 0, 0, .9)), url('https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimg1.cookinglight.timeinc.net%2Fsites%2Fdefault%2Ffiles%2Fstyles%2F4_3_horizontal_-_1200x900%2Fpublic%2F1590082480%2FGettyImages-945578702.jpg%3Fitok%3DzJRb8Xm5');
+  background-size: cover;
+  padding: 4rem;
+}
+
+.left-header::before {
+  background-color: #fff;
+  position: absolute;
+  content: '';
+  bottom: 50px;
+  left: 30px;
+  margin: 0 1rem;
+  width: 80%;
+  height: 2px;
+}
+
+.left-header::after {
+  background-color: #fff;
+  position: absolute;
+  content: '';
+  bottom: 50px;
+  left: 30px;
+  margin: 0 1rem;
+  height: 80%;
+  width: 2px;
+}
+
+.left-header h2 {
+  margin-left: 4rem;
+}
+
+.v-center-box {
+  min-height: 100%;
+}
+
+.sub-heading {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .15rem;
+  word-spacing: .05rem;
+}
+
+.about-data {
+  position: relative;
+}
+
+.about-data::before {
+  position: absolute;
+  content: '\003c/ ABOUT \003e';
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 900;
+  color: #dee2e6; 
+  background-color: #fff;
+  width: 8rem;
+}
+
+.about-data i {
+  color: #f12d2d;
+}
+
+.about-data p {
+  font-size: .7rem;
+  letter-spacing: .05rem;
+  word-spacing: .2rem;
+}
+.about-data .data-number {
+  color: #494949;
+  font-size: 1.2rem;
+}
+
+.icon-18 {
+  font-size: 1.8rem;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .left-header::before {
+    width: 70%;
+  }
+}
+
+@media (min-height: 590px) {
+  .left-header::after {
+    height: 85%;
+  }
+}
+
+.logout-form{
+    margin-top: 5%;
+    margin-left: 50%;
+
+}
+
+.logout{
+
+    width: 125px;
+    height:50px;
+    background-color: #c41560;
+    border-radius: 10px;
+    color:white;
+}
+.logout:hover{
+    color: #ec6424;
+    border: 1px solid #ec6424;
+    box-shadow: 2px 2px 20px #ec6424;
+}
+.nav {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    width: 30%;
+    
+    
+    }
+.nav li {
+    list-style: none;
+    font-weight: bolder;
+    font-size: 120%;
+    
+    }
+.logo{
+    letter-spacing: 3px;
+    color:#c41560;
+}
+
+.navlink a {
+
+    color:#c41560;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.navlink a:hover {
+
+    color:#ec6424;
+  
+}
+
+.navsearch {
+    border: 1px solid gray;
+    border-radius: 4px;
+    height: 1.7rem;
+    padding: 0px 6px 0px 6px;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25));
+}
