@@ -11,10 +11,16 @@
    
 </head>
 <body>
+    <style type='text/css'>
+        @import '/css/basket.css' screen, print;
+        @import '/css/style.css' screen, print;
+        
+
+      </style>
     {% if session['login'] %} {% include 'user_nav.html' %} {% else %} {%
         include 'navbar.html' %} {% endif %} {% include 'search.html' %}
     <div class="basketWindow"> <!-- Horizontal Flexbox -->
-        <sidebar class="basketSidebar">
+        <sidebar class="basketSidebar" id ="basketSidebar">
             <h1> Bookmarked Recipes </h1>
             {% if amount %}
             <p> {{amount}} Recipes </p> <!--Make sure the plural is correct (if there's only one recipe print 'recipe')-->
@@ -62,7 +68,21 @@
             </div> <!--basket card--> 
             {% endfor %}
         </sidebar>
-        
+        <script type="text/javascript">
+				
+            function printList(){
+                var images = document.getElementsByTagName('img');
+                for (i = 0; i < images.length;i++ ) {
+                    images[i].style.display = "none";
+                }
+                document.getElementById("basketSidebar").style.display='none';
+                window.print()
+                
+                window.location.reload()
+                
+                    }
+            
+                </script>
 
         <div class='mainBasketContent'>
             <div class='basketHeader'> <!--horizontal flexbox-->
@@ -93,13 +113,19 @@
                     {% endif %}
                 </div>
                 <div>
+                    <img class="printIcon" onClick="printList()" id='print' src="/css/img/print_icon.png">
                     <a class="clickableButton" id="instacart"> Instacart </a>
                     <a class="clickableButton" id="shipt"> Shipt </a>
-                    <img class="printIcon" id='print' src="/css/img/print_icon.png">
+                    
                 </div>
             </div> <!--basketHeader-->
             
-            <div class="basketGrid">
+            <div class="basketGrid" id="basketGrid">
+                <style type='text/css'>
+                    @import '/css/basket.css' screen, print;
+                    @import '/css/style.css' screen, print;
+            
+                  </style>
                 <div class="gridHeader" id="itemHeader">
                     <h2> Item </h2>
                     <div class="sortButtonContainer">

@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             }
             const index = filteredIngredientsTemp.indexOf(ingredient);
             filteredIngredientsTemp.splice(index, 1);
-            if(filteredIngredientsTemp.length == 1) {
+            if(filteredIngredientsTemp.length == 0) {
                 location.href = "/browse";
             }
             else {

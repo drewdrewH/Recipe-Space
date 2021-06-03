@@ -1,4 +1,14 @@
-groups = {'vegetables': """Acorn Squash
+groups = {'condiments':"""Barbecue sauce
+Carolina style condiments
+Coleslaw
+Comeback sauce
+Cranberry sauce
+Fry sauce
+Ketchup
+Mayonnaise
+Mumbo sauce
+Mustard (condiment)
+Relish""",'vegetables': """Acorn Squash
 Ahipa
 Amaranth
 American Groundnut
@@ -40,6 +50,10 @@ Canna
 Caper
 Cardoon
 Carrot
+carrots
+peas
+tomatoe
+
 Cassava
 Catsear
 Cauliflower
@@ -356,7 +370,7 @@ Blackcurrant
 Black sapote
 Blueberry
 Boysenberry
-Breadfruit
+
 Buddha's hand (fingered citron)
 Cactus pear
 Canistel
@@ -467,8 +481,11 @@ Tomato
 Ugli fruit
 White currant
 White sapote
-Yuzu""", 'grains': """Amaranth
-Barley
+Yuzu""", 'grains': """
+Amaranth
+bread
+wheat
+Barley 
 flour
 baking
 Hulled Barley/Barley Groats
@@ -641,7 +658,9 @@ Goose Eggs
 Hen Eggs
 Quail Eggs""",
 
-'seasonings':"""Ajwain, carom seeds (Trachyspermum ammi) (Pakistan, South Asia, India, Afghanistan, Iran, Egypt, Eritrea & Ethiopia)
+'seasonings':"""
+salt
+Ajwain, carom seeds (Trachyspermum ammi) (Pakistan, South Asia, India, Afghanistan, Iran, Egypt, Eritrea & Ethiopia)
 Akudjura (Solanum centrale) (Australia)
 Alexanders (Smyrnium olusatrum)
 Alkanet (Alkanna tinctoria), for red color

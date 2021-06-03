@@ -3,15 +3,52 @@ import mysql.connector as mysql
 import csv
 # Load the credentials from the secured .env file
 import os
+import re
+import json
 from dotenv import load_dotenv
 from foodgroups import groups
+from test import parsedIng
 load_dotenv('credentials.env')
+
 db_user = os.environ['MYSQL_USER']
 db_pass = os.environ['MYSQL_PASSWORD']
 db_name = os.environ['MYSQL_DATABASE']
 # must 'localhost' when running this script outside of Docker
 db_host = os.environ['MYSQL_HOST']
 
+for k,v in groups.items():
+  newV = v.replace("\r"," ")
+  newV = newV.replace("\n"," ")
+  groups[k] = newV
+
+name = "none"
+price = 4.20
+aisle = 'unknown'
+
+
+def findIng(ingr):
+  name = "none"
+  price = 4.20
+  aisle = 'unknown'
+  for x in parsedIng:
+    t = str(x['original']).strip()
+    clean1 = re.sub('\W+','', t )
+    clean2 =re.sub('\W+','', str(ingr).strip() )
+    
+    
+    if clean1 == clean2:
+            
+            if 'name' in x.keys():
+              name = x['name']
+            if 'estimatedCost' in x.keys():
+              price = x['estimatedCost']['value']
+            if 'aisle' in x.keys():
+              aisle = x['aisle']
+            ing = parse_ingredient(ingr)
+            records.append((str(row[0]), str(name), aisle ,
+                       (" "+str(ing.quantity)), str(ing.unit), float(price/100.0), ))
+            return True
+  return False   
 
 
 with open('RecipeDatabase.csv', newline='') as csvfile:
@@ -28,36 +65,46 @@ for row in data:
     row[7] = str(row[7])
     records = []
     ingredients = row[3].split(';')
+
+    entries = []
     for i in ingredients:
-        ing = parse_ingredient(i)
-        food_group = 'unknown'
-        for x in (ing.name).split(' '):
-          if (x).lower() in groups['dairy'].lower():
-            food_group = 'Dairy'
-            break
-          elif (x).lower() in groups['vegetables'].lower():
-            food_group = 'Vegetable'
-            break
-          elif (x).lower() in groups['fruits'].lower():
-            food_group = 'Fruit'
-            break
-          elif (x).lower() in groups['meats'].lower():
-            food_group = 'Meat'
-            break
-          elif (x).lower() in groups['seafood'].lower():
-            food_group = 'Seafood'
-            break
-          elif (x).lower() in groups['poultry'].lower():
-            food_group = 'Poultry'
-            break
-          elif (x).lower() in groups['grains'].lower():
-            food_group = 'Grain'
-            break
-          elif (x).lower() in groups['seasonings'].lower():
-            food_group = 'Seasoning'
-            break
-        records.append((str(row[0]), str(ing.name), food_group ,
+      if not (findIng(i)):
+            ing = parse_ingredient(i)
+            food_group = 'unknown'
+            for x in ((ing.name).split(' '))[::-1]:
+              sub = " " + x.lower()
+              if sub in groups['dairy'].lower():
+                food_group = 'Dairy'
+                break
+
+              elif sub in groups['poultry'].lower():
+                food_group = 'Poultry'
+                break
+              elif sub in groups['seafood'].lower():
+                food_group = 'Seafood'
+                break
+              elif sub in groups['meats'].lower():
+                food_group = 'Meat'
+                break
+              elif sub in groups['vegetables'].lower():
+                food_group = 'Vegetable'
+                break
+              elif sub in groups['fruits'].lower():
+                food_group = 'Fruit'
+                break
+
+              elif sub in groups['grains'].lower():
+                food_group = 'Grain'
+                break
+              elif sub in groups['seasonings'].lower():
+                food_group = 'Seasoning'
+                break
+              elif sub in groups['condiments'].lower():
+                food_group = 'Condiment'
+                break
+            records.append((str(row[0]), str(ing.name), food_group ,
                        (" "+str(ing.quantity)), str(ing.unit), 3.14, ))
+            
 
     ing_recs.append(records)
 
@@ -229,16 +276,6 @@ for i in ing_recs:
     cursor.executemany(query, i)
     db.commit()
 
-# Selecting Records
-cursor.execute("select * from Users;")
-print('---------- DATABASE INITIALIZED ----------')
-[print(x) for x in cursor]
 
-cursor.execute("select * from Recipes;")
-print('---------- DATABASE INITIALIZED ----------')
-[print(x) for x in cursor]
 
-cursor.execute("select * from Ingredients;")
-print('---------- DATABASE INITIALIZED ----------')
-[print(x) for x in cursor]
 db.close()

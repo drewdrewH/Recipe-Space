@@ -49,7 +49,7 @@ def get_home(req):
 
   popular = access_database("SELECT DISTINCT * FROM Recipes \
     r INNER JOIN (SELECT name, Count(*) FROM Bookmarks GROUP BY name \
-    ORDER BY count(*) DESC LIMIT 4) p on r.name = p.name;", values=None,fetch='all')
+    ORDER BY count(*) DESC LIMIT 3) p on r.name = p.name;", values=None,fetch='all')
   ingredients = {}
 
   for i in popular:
