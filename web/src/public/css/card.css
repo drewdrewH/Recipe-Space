@@ -14,7 +14,7 @@
   .grid-container {
     margin-top: 50px;
     display: grid;
-    grid-template-columns: auto auto auto ;
+    grid-template-columns: 1fr 1fr 1fr ;
     grid-column-gap: 35px;
     grid-row-gap: 55px;
     width:80%;
