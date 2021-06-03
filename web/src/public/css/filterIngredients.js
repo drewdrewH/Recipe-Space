@@ -6,13 +6,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     ingredientTags.addEventListener("click", function(e) {
         if(e.target && e.target.classList.contains("ingredient_tag")){
-            var ingredient = e.target.innerHTML;
+            var ingredient = e.target.childNodes[0].nodeValue;
             console.log(ingredient);
             var filteredIngredientsTemp = [];
             var ingredientTag = ingredientTags.getElementsByClassName("ingredient_tag");
             for(i = 0; i < ingredientTag.length; i++) {
                 //console.log(ingredientTag[i].innerHTML);
-                filteredIngredientsTemp.push(ingredientTag[i].innerHTML);
+                filteredIngredientsTemp.push(ingredientTag[i].childNodes[0].nodeValue);
             }
             const index = filteredIngredientsTemp.indexOf(ingredient);
             filteredIngredientsTemp.splice(index, 1);
@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             var ingredientTag = ingredientTags.getElementsByClassName("ingredient_tag");
             for(i = 0; i < ingredientTag.length; i++) {
                 //console.log(ingredientTag[i].innerHTML);
-                filteredIngredients.push(ingredientTag[i].innerHTML);
+                filteredIngredients.push(ingredientTag[i].childNodes[0].nodeValue);
             }
             if(searchText != "" && !filteredIngredients.includes(searchText)){
                 filteredIngredients.push(searchText);

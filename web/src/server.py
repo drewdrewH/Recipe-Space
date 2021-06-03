@@ -72,6 +72,11 @@ def get_home(req):
     {'session':session, 'recipes':records, 'popular':popular, 'ingredients':ingredients, 'basic':basic},\
     request = req )
 
+
+def about(req):           # about view implementation
+  session = req.session
+  return render_to_response('templates/about.html', {'session':session}, request = req)
+
 def profile(req):
   # This function is responsible for rendering the profile page
 
@@ -389,6 +394,9 @@ if __name__ == '__main__':
 
   config.add_route('recipe', '/recipes/{recipe}')
   config.add_view(recipe , route_name='recipe' )
+
+  config.add_route('about', '/about')
+  config.add_view(about , route_name='about')
 
   config.add_route('basket', '/basket')
   config.add_view(basket , route_name='basket' )
